@@ -10,9 +10,10 @@ provider:
   runtime: nodejs18.x
   region: ap-south-1
 
+
   environment:
-    USER_POOL_ID: ${env:USER_POOL_ID}
-    CLIENT_ID: ${env:CLIENT_ID}
+    USER_POOL_ID: ap-south-1_uxDSaAj4e
+    CLIENT_ID: 6uttaoktetdv1d417hcenv4bd
 
 functions:
   api:
