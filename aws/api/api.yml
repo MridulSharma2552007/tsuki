@@ -1,4 +1,5 @@
 openapi: "3.0.1"
+
 info:
   title: Tsuki API
   version: "1.0"
@@ -7,13 +8,48 @@ info:
 paths:
   /health:
     get:
-      summary: Health check
       operationId: healthCheck
       x-amazon-apigateway-integration:
         httpMethod: POST
         type: aws_proxy
         payloadFormatVersion: "2.0"
-        uri: arn:aws:apigateway:ap-south-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-south-1:{AWS::AccountId}:function:tsuki-usermanagement-prod-health/invocations
+        uri: ${LAMBDA_URI}
+      responses:
+        "200":
+          description: OK
+
+  /auth/register:
+    post:
+      operationId: register
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        payloadFormatVersion: "2.0"
+        uri: ${LAMBDA_URI}
+      responses:
+        "200":
+          description: OK
+
+  /auth/login:
+    post:
+      operationId: login
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        payloadFormatVersion: "2.0"
+        uri: ${LAMBDA_URI}
+      responses:
+        "200":
+          description: OK
+
+  /auth/verify:
+    post:
+      operationId: verify
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        payloadFormatVersion: "2.0"
+        uri: ${LAMBDA_URI}
       responses:
         "200":
           description: OK

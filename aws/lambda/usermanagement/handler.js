@@ -1,8 +1,27 @@
-exports.handler = async () => {
+const { register } = require("./auth/register");
+const { login } = require("./auth/login");
+const { verify } = require("./auth/verify");
+
+exports.handler = async (event) => {
+  const path = event.rawPath;
+  const method = event.requestContext.http.method;
+
+  if (path === "/auth/register" && method === "POST") {
+    return register(event);
+  }
+
+  if (path === "/auth/login" && method === "POST") {
+    return login(event);
+  }
+
+  if (path === "/auth/verify" && method === "POST") {
+    return verify(event);
+  }
+
   return {
-    statusCode: 200,
+    statusCode: 404,
     body: JSON.stringify({
-      message: "Tsuki API Online",
+      message: "Route not found",
     }),
   };
 };

@@ -8,10 +8,10 @@ provider:
   region: ap-south-1
   stage: prod
 
+  environment:
+    USER_POOL_ID: ${env:USER_POOL_ID}
+    CLIENT_ID: ${env:CLIENT_ID}
+
 functions:
-  health:
+  api:
     handler: handler.handler
-    events:
-      - httpApi:
-          path: /health
-          method: get
