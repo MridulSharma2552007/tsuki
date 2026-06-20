@@ -12,7 +12,8 @@ paths:
       x-amazon-apigateway-integration:
         httpMethod: POST
         type: aws_proxy
-        uri: arn:aws:apigateway:ap-south-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-south-1:{AWS::AccountId}:function:tsuki-usermanagement-dev-health/invocations
+        payloadFormatVersion: "2.0"
+        uri: arn:aws:apigateway:ap-south-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-south-1:{AWS::AccountId}:function:tsuki-usermanagement-prod-health/invocations
       responses:
         "200":
           description: OK

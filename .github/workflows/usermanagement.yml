@@ -1,4 +1,4 @@
-name: Lambda Deploy — User Management
+name: Lambda Deploy
 
 on:
   push:
@@ -12,21 +12,14 @@ jobs:
     defaults:
       run:
         working-directory: aws/lambda/usermanagement
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
-
-      - run: chmod +x deploy.sh
-
-      - name: Deploy Lambda
-        run: ./deploy.sh -s prod -r ap-south-1
+      - run: chmod +x deploy.sh && ./deploy.sh

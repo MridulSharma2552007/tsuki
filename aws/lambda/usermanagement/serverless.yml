@@ -6,6 +6,7 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: ap-south-1
+  stage: prod
 
 functions:
   health:
