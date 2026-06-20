@@ -31,12 +31,11 @@ STACK_STATUS=$(aws cloudformation describe-stacks \
   --stack-name "$STACK_NAME" --region "$REGION" \
   --query 'Stacks[0].StackStatus' --output text 2>/dev/null || true)
 
-if [[ -n "$STACK_STATUS" && "$STACK_STATUS" != "None" ]]; then
-  echo "Existing stack found in $STACK_STATUS — deleting for fresh deploy..."
+if [[ "$STACK_STATUS" == *ROLLBACK* || "$STACK_STATUS" == *FAILED* || "$STACK_STATUS" == *DELETE_FAILED* ]]; then
+  echo "Stack in $STACK_STATUS — deleting before redeploy..."
   aws cloudformation delete-stack --stack-name "$STACK_NAME" --region "$REGION"
   aws cloudformation wait stack-delete-complete \
     --stack-name "$STACK_NAME" --region "$REGION" || true
-  echo "Stack deleted."
 fi
 
 npx serverless deploy --stage "$STAGE" --region "$REGION"
