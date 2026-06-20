@@ -31,16 +31,9 @@ STACK_STATUS=$(aws cloudformation describe-stacks \
   --stack-name "$STACK_NAME" --region "$REGION" \
   --query 'Stacks[0].StackStatus' --output text 2>/dev/null || true)
 
-if [[ "$STACK_STATUS" == *ROLLBACK* || "$STACK_STATUS" == *FAILED* ]]; then
-  echo "Stack in $STACK_STATUS — removing before redeploy..."
-  aws cloudformation delete-stack --stack-name "$STACK_NAME" --region "$REGION" || true
-  aws cloudformation wait stack-delete-complete \
-    --stack-name "$STACK_NAME" --region "$REGION" || true
-fi
-
-if [ "$STACK_STATUS" = "DELETE_FAILED" ]; then
-  echo "Stack in DELETE_FAILED — retrying deletion..."
-  for i in $(seq 1 30); do
+delete_stack() {
+  echo "Deleting stack: $STACK_NAME"
+  for i in $(seq 1 60); do
     aws cloudformation delete-stack --stack-name "$STACK_NAME" --region "$REGION" 2>/dev/null || true
     sleep 10
     CURRENT=$(aws cloudformation describe-stacks \
@@ -48,14 +41,41 @@ if [ "$STACK_STATUS" = "DELETE_FAILED" ]; then
       --query 'Stacks[0].StackStatus' --output text 2>/dev/null) || CURRENT=""
     if [ -z "$CURRENT" ]; then
       echo "Stack deleted."
-      break
+      return 0
     fi
     if [[ "$CURRENT" != *DELETE* && "$CURRENT" != *FAILED* ]]; then
       echo "Stack transitioned to $CURRENT."
-      break
+      return 0
     fi
-    echo "Waiting for stack deletion... ($i/30)"
+    echo "Waiting for stack deletion... ($i/60)"
   done
+  echo "Warning: Stack still not deleted after 10 minutes."
+}
+
+cleanup_failed() {
+  echo "Cleaning up resources blocking deletion..."
+  for bucket in $(aws cloudformation list-stack-resources \
+    --stack-name "$STACK_NAME" --region "$REGION" \
+    --query "StackResourceSummaries[?ResourceType=='AWS::S3::Bucket'].PhysicalResourceId" \
+    --output text 2>/dev/null || true); do
+    echo "Emptying S3 bucket: $bucket"
+    aws s3 rm "s3://$bucket" --recursive --region "$REGION" 2>/dev/null || true
+    echo "Deleting S3 bucket: $bucket"
+    aws s3 rb "s3://$bucket" --force --region "$REGION" 2>/dev/null || true
+  done
+}
+
+if [[ "$STACK_STATUS" == *ROLLBACK* || "$STACK_STATUS" == *FAILED* ]]; then
+  cleanup_failed
+  delete_stack
+fi
+
+if [ "$STACK_STATUS" = "DELETE_FAILED" ]; then
+  cleanup_failed
+  echo "Trying force deletion for DELETE_FAILED stack..."
+  aws cloudformation delete-stack --stack-name "$STACK_NAME" \
+    --region "$REGION" --deletion-mode FORCE_DELETE_STACK 2>/dev/null || true
+  delete_stack
 fi
 
 npx serverless deploy --stage "$STAGE" --region "$REGION"
