@@ -33,9 +33,22 @@ STACK_STATUS=$(aws cloudformation describe-stacks \
 
 if [[ "$STACK_STATUS" == *ROLLBACK* || "$STACK_STATUS" == *FAILED* || "$STACK_STATUS" == *DELETE_FAILED* ]]; then
   echo "Stack in $STACK_STATUS — deleting before redeploy..."
-  aws cloudformation delete-stack --stack-name "$STACK_NAME" --region "$REGION"
-  aws cloudformation wait stack-delete-complete \
-    --stack-name "$STACK_NAME" --region "$REGION" || true
+  for i in $(seq 1 30); do
+    aws cloudformation delete-stack --stack-name "$STACK_NAME" --region "$REGION" 2>/dev/null || true
+    sleep 10
+    CURRENT=$(aws cloudformation describe-stacks \
+      --stack-name "$STACK_NAME" --region "$REGION" \
+      --query 'Stacks[0].StackStatus' --output text 2>/dev/null || echo "DOES_NOT_EXIST")
+    if [ "$CURRENT" = "DOES_NOT_EXIST" ]; then
+      echo "Stack deleted."
+      break
+    fi
+    if [[ "$CURRENT" != *DELETE* && "$CURRENT" != *ROLLBACK* && "$CURRENT" != *FAILED* ]]; then
+      echo "Stack transitioned to $CURRENT — proceeding."
+      break
+    fi
+    echo "Waiting for stack deletion... ($i/30)"
+  done
 fi
 
 npx serverless deploy --stage "$STAGE" --region "$REGION"
