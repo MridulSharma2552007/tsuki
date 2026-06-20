@@ -1,0 +1,14 @@
+service: tsuki-usermanagement
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+
+functions:
+  health:
+    handler: handler.handler
+    events:
+      - httpApi:
+          path: /health
+          method: get

@@ -1,0 +1,53 @@
+name: API Deploy
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'aws/api/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Deploy API Gateway
+        run: |
+          API_NAME="tsuki-api"
+          SPEC_FILE="aws/api/api.yml"
+
+          if [ ! -f "$SPEC_FILE" ] || [ ! -s "$SPEC_FILE" ]; then
+            echo "API spec file is empty or missing — skipping deploy"
+            exit 0
+          fi
+
+          API_ID=$(aws apigateway get-rest-apis \
+            --query "items[?name=='$API_NAME'].id" \
+            --output text)
+
+          if [ -z "$API_ID" ]; then
+            echo "Creating new REST API..."
+            API_ID=$(aws apigateway import-rest-api \
+              --parameters endpointConfigurationTypes=REGIONAL \
+              --body "file://$SPEC_FILE" \
+              --query "id" --output text)
+            echo "Created API ID: $API_ID"
+          else
+            echo "Updating existing REST API: $API_ID"
+            aws apigateway put-rest-api \
+              --rest-api-id "$API_ID" \
+              --mode overwrite \
+              --body "file://$SPEC_FILE"
+          fi
+
+          aws apigateway create-deployment \
+            --rest-api-id "$API_ID" \
+            --stage-name prod \
+            --description "Deploy from $(git rev-parse --short HEAD)"
