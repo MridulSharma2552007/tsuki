@@ -19,8 +19,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
-          cache-dependency-path: aws/lambda/usermanagement/package-lock.json
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -28,7 +26,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      - run: npm ci
+      - run: chmod +x deploy.sh
 
-      - name: Deploy with Serverless Framework
-        run: npx serverless deploy --stage prod
+      - name: Deploy Lambda
+        run: ./deploy.sh -s prod -r ap-south-1

@@ -18,52 +18,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
+      - run: chmod +x aws/api/deploy.sh
+
       - name: Deploy API Gateway
-        run: |
-          API_NAME="tsuki-api"
-          SPEC_FILE="aws/api/api.yml"
-          LAMBDA_FUNCTION="tsuki-usermanagement-dev-health"
-
-          if [ ! -f "$SPEC_FILE" ] || [ ! -s "$SPEC_FILE" ]; then
-            echo "API spec file is empty or missing — skipping deploy"
-            exit 0
-          fi
-
-          ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-          sed -i "s/{AWS::AccountId}/$ACCOUNT_ID/g" "$SPEC_FILE"
-
-          API_ID=$(aws apigateway get-rest-apis \
-            --query "items[?name=='$API_NAME'].id" \
-            --output text)
-
-          CLI_OPTS="--cli-binary-format raw-in-base64-out"
-
-          if [ -z "$API_ID" ]; then
-            echo "Creating new REST API..."
-            API_ID=$(aws apigateway import-rest-api \
-              $CLI_OPTS \
-              --parameters endpointConfigurationTypes=REGIONAL \
-              --body "file://$SPEC_FILE" \
-              --query "id" --output text)
-            echo "Created API ID: $API_ID"
-          else
-            echo "Updating existing REST API: $API_ID"
-            aws apigateway put-rest-api \
-              $CLI_OPTS \
-              --rest-api-id "$API_ID" \
-              --mode overwrite \
-              --body "file://$SPEC_FILE"
-          fi
-
-          aws lambda add-permission \
-            --function-name "$LAMBDA_FUNCTION" \
-            --statement-id apigateway-invoke \
-            --action lambda:InvokeFunction \
-            --principal apigateway.amazonaws.com \
-            --source-arn "arn:aws:execute-api:ap-south-1:$ACCOUNT_ID:$API_ID/*" \
-            2>/dev/null || true
-
-          aws apigateway create-deployment \
-            --rest-api-id "$API_ID" \
-            --stage-name prod \
-            --description "Deploy from $(git rev-parse --short HEAD)"
+        run: ./aws/api/deploy.sh prod
