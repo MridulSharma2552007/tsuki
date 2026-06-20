@@ -20,7 +20,7 @@ API_ID=$(aws apigatewayv2 get-apis \
 if [ -z "$API_ID" ]; then
   echo "Creating new HTTP API..."
   API_ID=$(aws apigatewayv2 import-api \
-    $CLI_OPTS --name "$API_NAME" \
+    $CLI_OPTS \
     --body "file://$TEMP_FILE" --query "ApiId" --output text)
 else
   echo "Updating HTTP API: $API_ID"
