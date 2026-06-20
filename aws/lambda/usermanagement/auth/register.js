@@ -16,7 +16,7 @@ exports.register = async (event) => {
     }
 
     const command = new SignUpCommand({
-      ClientId: process.env.ClientId,
+      ClientId: process.env.CLIENT_ID,
       Username: email,
       Password: password,
       UserAttributes: [{ Name: "email", Value: email }],
