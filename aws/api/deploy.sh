@@ -5,12 +5,14 @@ cd "$(dirname "$0")"
 
 API_NAME="tsuki-api"
 SPEC_FILE="api.yml"
-LAMBDA_FUNCTION="tsuki-usermanagement-prod-health"
+LAMBDA_FUNCTION="tsuki-usermanagement"
 
 ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+LAMBDA_URI="arn:aws:apigateway:ap-south-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-south-1:$ACCOUNT_ID:function:$LAMBDA_FUNCTION/invocations"
+
 TEMP_FILE="api-temp.yml"
 cp "$SPEC_FILE" "$TEMP_FILE"
-sed -i "s/{AWS::AccountId}/$ACCOUNT_ID/g" "$TEMP_FILE"
+sed -i "s|\${LAMBDA_URI}|$LAMBDA_URI|g" "$TEMP_FILE"
 
 CLI_OPTS="--cli-binary-format raw-in-base64-out"
 
@@ -37,8 +39,5 @@ aws lambda add-permission \
   --source-arn "arn:aws:execute-api:ap-south-1:$ACCOUNT_ID:$API_ID/*/*" \
   2>/dev/null || true
 
-aws apigatewayv2 create-deployment \
-  --api-id "$API_ID" --stage-name prod 2>/dev/null || true
-
-echo "https://$API_ID.execute-api.ap-south-1.amazonaws.com/prod/health"
+echo "https://$API_ID.execute-api.ap-south-1.amazonaws.com"
 rm -f "$TEMP_FILE"

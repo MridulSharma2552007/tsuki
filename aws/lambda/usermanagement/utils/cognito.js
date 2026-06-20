@@ -1,5 +1,3 @@
-
-
 const {
   CognitoIdentityProviderClient,
 } = require("@aws-sdk/client-cognito-identity-provider");

@@ -6,7 +6,6 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: ap-south-1
-  stage: prod
 
   environment:
     USER_POOL_ID: ${env:USER_POOL_ID}
@@ -15,3 +14,4 @@ provider:
 functions:
   api:
     handler: handler.handler
+    name: tsuki-usermanagement
