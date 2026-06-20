@@ -2,6 +2,9 @@ service: tsuki-usermanagement
 
 frameworkVersion: "3"
 
+plugins:
+  - serverless-dotenv-plugin
+
 provider:
   name: aws
   runtime: nodejs18.x
@@ -13,5 +16,5 @@ provider:
 
 functions:
   api:
-    handler: handler.handler
     name: tsuki-usermanagement
+    handler: handler.handler

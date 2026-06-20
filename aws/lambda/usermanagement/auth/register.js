@@ -4,6 +4,8 @@ const { SignUpCommand } = require("@aws-sdk/client-cognito-identity-provider");
 
 exports.register = async (event) => {
   try {
+    console.log("CLIENT_ID:", process.env.CLIENT_ID);
+    console.log("USER_POOL_ID:", process.env.USER_POOL_ID);
     const body = JSON.parse(event.body);
     const { email, password } = body;
     if (!email || !password) {
