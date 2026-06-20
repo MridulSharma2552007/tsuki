@@ -1,0 +1,18 @@
+openapi: "3.0.1"
+info:
+  title: Tsuki API
+  version: "1.0"
+  description: Tsuki backend API
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      operationId: healthCheck
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri: arn:aws:apigateway:ap-south-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-south-1:{AWS::AccountId}:function:tsuki-usermanagement-dev-health/invocations
+      responses:
+        "200":
+          description: OK
