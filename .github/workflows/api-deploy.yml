@@ -36,9 +36,12 @@ jobs:
             --query "items[?name=='$API_NAME'].id" \
             --output text)
 
+          CLI_OPTS="--cli-binary-format raw-in-base64-out"
+
           if [ -z "$API_ID" ]; then
             echo "Creating new REST API..."
             API_ID=$(aws apigateway import-rest-api \
+              $CLI_OPTS \
               --parameters endpointConfigurationTypes=REGIONAL \
               --body "file://$SPEC_FILE" \
               --query "id" --output text)
@@ -46,6 +49,7 @@ jobs:
           else
             echo "Updating existing REST API: $API_ID"
             aws apigateway put-rest-api \
+              $CLI_OPTS \
               --rest-api-id "$API_ID" \
               --mode overwrite \
               --body "file://$SPEC_FILE"
