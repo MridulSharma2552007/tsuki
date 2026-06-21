@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tsuki/app/feature/auth/bloc/auth_bloc.dart';
 import 'package:tsuki/app/feature/auth/bloc/auth_event.dart';
 import 'package:tsuki/app/feature/auth/bloc/auth_state.dart';
-import 'package:tsuki/core/constants/ascii.dart';
-import 'package:tsuki/core/theme/app_text_style.dart';
+import 'package:tsuki/app/feature/auth/presentation/pages/register_page.dart';
+import 'package:tsuki/app/feature/auth/presentation/shared/widgets_auth.dart';
 import 'package:tsuki/utils/app_colors.dart';
 
 class LoginPage extends StatefulWidget {
@@ -37,18 +37,25 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: AppColors.primaryBg,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is AuthError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text("Error Logning")));
+          if (state is VerificationRequired) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  "TRANSMISSION COMPLETE\nAN OTP HAS BEEN SENT TO YOUR EMAIL.\nCHECK YOUR SPAM FOLDER.",
+                ),
+              ),
+            );
+            context.go('/verify/${state.email}');
+          } else if (state is Authenticated) {
+            context.go('/home');
           }
         },
         builder: (context, state) {
           return PageView(
             controller: controller,
             children: [
-              loginwidget(controller: controller),
-              Column(children: [Center(child: Text('PAGE 1'))]),
+              LoginWidget(controller: controller),
+              RegisterPage(controller: controller),
             ],
           );
         },
@@ -57,26 +64,18 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-class loginwidget extends StatefulWidget {
+class LoginWidget extends StatefulWidget {
   final PageController _controller;
-  const loginwidget({super.key, required PageController controller})
+  const LoginWidget({super.key, required PageController controller})
     : _controller = controller;
 
   @override
-  State<loginwidget> createState() => _loginwidgetState();
+  State<LoginWidget> createState() => _LoginWidgetState();
 }
 
-class _loginwidgetState extends State<loginwidget> {
+class _LoginWidgetState extends State<LoginWidget> {
   final TextEditingController emailcontroller = TextEditingController();
   final TextEditingController passwordcontroller = TextEditingController();
-  bool isValidPassword(String password) {
-    final regex = RegExp(
-      r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$',
-    );
-
-    return regex.hasMatch(password);
-  }
-
   void login() {
     final email = emailcontroller.text.trim();
     final password = passwordcontroller.text.trim();
@@ -105,6 +104,13 @@ class _loginwidgetState extends State<loginwidget> {
   }
 
   @override
+  void dispose() {
+    emailcontroller.dispose();
+    passwordcontroller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
@@ -114,22 +120,8 @@ class _loginwidgetState extends State<loginwidget> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                Ascii.onboardAscii,
-                style: TextStyle(
-                  fontSize: 8,
-                  fontFamily: 'Courier',
-                  color: AppColors.secondary,
-                ),
-              ),
-              Text(
-                Ascii.tsukiArt,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontFamily: 'Courier',
-                  color: AppColors.secondary,
-                ),
-              ),
+              logoascii(),
+              tsukiascii(),
               SizedBox(height: 40),
               CustomTextField(
                 obj: 'EMAIL',
@@ -161,85 +153,12 @@ class _loginwidgetState extends State<loginwidget> {
                 ],
               ),
               SizedBox(height: 22),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    shape: WidgetStateProperty.all(
-                      const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                    ),
-                    backgroundColor: WidgetStateProperty.resolveWith((states) {
-                      if (states.contains(WidgetState.pressed)) {
-                        return const Color(0xFF0A0A0A);
-                      }
-                      return const Color(0xFFFFB000);
-                    }),
-                  ),
-                  onPressed: () => login(),
-                  child: Text(
-                    " > LOGIN",
-                    style: TextStyle(
-                      fontFamily: 'Courier',
-                      color: AppColors.primaryBg,
-                    ),
-                  ),
-                ),
+              AuthButton(
+                label: " > LOGIN",
+                onPressed: () => login(),
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  final String obj;
-  final TextEditingController textEditingController;
-  const CustomTextField({
-    super.key,
-    required this.obj,
-    required this.textEditingController,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: textEditingController,
-      style: const TextStyle(
-        color: Color(0xFFFFB000),
-        fontFamily: 'Courier',
-        fontSize: 14,
-      ),
-      cursorColor: Color(0xFFFFB000),
-      decoration: InputDecoration(
-        hintText: obj,
-        hintStyle: TextStyle(
-          color: const Color(0xFFFFB000).withOpacity(0.4),
-          fontFamily: 'Courier',
-          letterSpacing: 2,
-        ),
-        filled: true,
-        fillColor: const Color(0xFF0A0A0A),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 18,
-        ),
-        enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.zero,
-          borderSide: BorderSide(color: Color(0xFFFFB000), width: 1),
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.zero,
-          borderSide: BorderSide(color: Color(0xFFFFB000), width: 2),
-        ),
-        prefixText: '> ',
-        prefixStyle: const TextStyle(
-          color: Color(0xFFFFB000),
-          fontFamily: 'Courier',
         ),
       ),
     );

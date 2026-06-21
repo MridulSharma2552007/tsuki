@@ -15,7 +15,11 @@ class AuthRepository {
 
   Future<RegisterResponse> register(String email, String password) async {
     final data = await api.register(email, password);
-    print(data);
+   
     return RegisterResponse.fromJson(data);
+  }
+
+  Future<void> verify(String email, String code) async {
+    await api.verify(email, code);
   }
 }

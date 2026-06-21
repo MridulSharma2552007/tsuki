@@ -19,4 +19,12 @@ class AuthApi {
     );
     return response.data;
   }
+
+  Future<Map<String, dynamic>> verify(String email, String code) async {
+    final response = await dio.post(
+      '/auth/verify',
+      data: {'email': email, 'code': code},
+    );
+    return response.data;
+  }
 }

@@ -13,6 +13,10 @@ class RegisterRequested extends AuthEvent {
   RegisterRequested({required this.email, required this.password});
 }
 
-class VerifyRequested extends AuthEvent {}
+class VerifyRequested extends AuthEvent {
+  final String email;
+  final String code;
+  VerifyRequested({required this.email, required this.code});
+}
 
 class LogoutRequested extends AuthEvent {}
