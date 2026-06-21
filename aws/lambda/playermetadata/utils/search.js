@@ -30,19 +30,9 @@ exports.search = async (event) => {
       results ? Object.keys(results) : "null",
     );
 
-    const songs = results.results.slice(0, 10).map((song) => ({
-      id: song.id,
-      title: song.title,
-      artist: song.artists?.[0]?.name,
-      thumbnail: song.thumbnails?.[0]?.url,
-      youtubeUrl: `https://www.youtube.com/watch?v=${song.id}`,
-    }));
-
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        songs,
-      }),
+      body: JSON.stringify(results),
     };
   } catch (error) {
     console.log("[SEARCH] ERROR:", error);
