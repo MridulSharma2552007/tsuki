@@ -21,12 +21,28 @@ exports.search = async (event) => {
     const results = await yt.music.search(query, {
       type: "song",
     });
-    console.log("[SEARCH] Results count:", results?.length || results?.contents?.length || "unknown");
-    console.log("[SEARCH] Results keys:", results ? Object.keys(results) : "null");
+    console.log(
+      "[SEARCH] Results count:",
+      results?.length || results?.contents?.length || "unknown",
+    );
+    console.log(
+      "[SEARCH] Results keys:",
+      results ? Object.keys(results) : "null",
+    );
+
+    const songs = results.results.slice(0, 10).map((song) => ({
+      id: song.id,
+      title: song.title,
+      artist: song.artists?.[0]?.name,
+      thumbnail: song.thumbnails?.[0]?.url,
+      youtubeUrl: `https://www.youtube.com/watch?v=${song.id}`,
+    }));
 
     return {
       statusCode: 200,
-      body: JSON.stringify(results),
+      body: JSON.stringify({
+        songs,
+      }),
     };
   } catch (error) {
     console.log("[SEARCH] ERROR:", error);
