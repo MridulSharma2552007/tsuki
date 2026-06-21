@@ -4,7 +4,10 @@ exports.handler = async (event) => {
   const path = event.rawPath;
   const method = event.requestContext.http.method;
   console.log("[HANDLER] Path:", path, "| Method:", method);
-  console.log("[HANDLER] Query params:", JSON.stringify(event.queryStringParameters));
+  console.log(
+    "[HANDLER] Query params:",
+    JSON.stringify(event.queryStringParameters),
+  );
 
   if (path === "/metadata/health" && method === "GET") {
     return {
