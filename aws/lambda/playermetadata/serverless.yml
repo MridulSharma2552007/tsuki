@@ -1,4 +1,4 @@
-service: tsuki-usermanagement
+service: tsuki-playermetadata
 
 frameworkVersion: "3"
 
@@ -11,10 +11,8 @@ provider:
   region: ap-south-1
 
   environment:
-    USER_POOL_ID: { env:USER_POOL_ID }
-    CLIENT_ID: { env:CLIENT_ID }
 
 functions:
   api:
-    name: tsuki-usermanagement
+    name: tsuki-playermetadata
     handler: handler.handler

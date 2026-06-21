@@ -9,20 +9,29 @@ exports.handler = async (event) => {
   console.log("[HANDLER] Path:", path, "| Method:", method);
   console.log("[HANDLER] Headers:", JSON.stringify(event.headers));
   console.log("[HANDLER] Body raw:", event.body);
-  console.log("[HANDLER] Query params:", JSON.stringify(event.queryStringParameters));
-  console.log("[HANDLER] Stage variables:", JSON.stringify(event.stageVariables));
-  console.log("[HANDLER] Request context:", JSON.stringify(event.requestContext));
-  console.log("[HANDLER] Identity source IP:", event.requestContext?.http?.sourceIp);
+  console.log(
+    "[HANDLER] Query params:",
+    JSON.stringify(event.queryStringParameters),
+  );
+  console.log(
+    "[HANDLER] Stage variables:",
+    JSON.stringify(event.stageVariables),
+  );
+  console.log(
+    "[HANDLER] Request context:",
+    JSON.stringify(event.requestContext),
+  );
+  console.log(
+    "[HANDLER] Identity source IP:",
+    event.requestContext?.http?.sourceIp,
+  );
   console.log("[HANDLER] User agent:", event.requestContext?.http?.userAgent);
-  console.log("[HANDLER] ENV CLIENT_ID:", process.env.CLIENT_ID);
-  console.log("[HANDLER] ENV USER_POOL_ID:", process.env.USER_POOL_ID);
-  console.log("[HANDLER] ENV REGION:", process.env.REGION);
 
   if (path === "/health" && method === "GET") {
     console.log("[HANDLER] Health check hit");
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Tsuki API Online" }),
+      body: JSON.stringify({ message: "Tsuki Auth API Online" }),
     };
   }
 
