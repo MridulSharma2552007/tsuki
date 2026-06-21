@@ -1,4 +1,4 @@
-const { search } = require("./metadata/search");
+const { search } = require("./utils/search");
 
 exports.handler = async (event) => {
   const path = event.rawPath;
