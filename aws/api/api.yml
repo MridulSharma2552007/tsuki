@@ -64,3 +64,14 @@ paths:
       responses:
         "200":
           description: OK
+  /metadata/search:
+    get:
+    operationId: search
+    x-amazon-apigateway-integration:
+      httpMethod: POST
+      type: aws_proxy
+      payloadFormatVersion: "2.0"
+      uri: ${LAMBDA_URI_PLAYERMETADATA}
+    responses:
+      "200":
+        description: OK
