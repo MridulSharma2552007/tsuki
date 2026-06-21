@@ -9,6 +9,46 @@ bool isValidPassword(String password) {
   return regex.hasMatch(password);
 }
 
+class TerminalOverlay {
+  static void show(BuildContext context, String message) {
+    final overlay = Overlay.of(context);
+
+    late OverlayEntry entry;
+
+    entry = OverlayEntry(
+      builder: (_) => Positioned(
+        top: 50,
+        left: 20,
+        right: 20,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppColors.terminalSurface,
+              border: Border.all(color: AppColors.terminalAmber),
+            ),
+            child: Text(
+              '> $message',
+              style: const TextStyle(
+                color: AppColors.terminalAmber,
+                fontFamily: 'Courier',
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    overlay.insert(entry);
+
+    Future.delayed(
+      const Duration(seconds: 3),
+      () => entry.remove(),
+    );
+  }
+}
+
 class tsukiascii extends StatelessWidget {
   const tsukiascii({super.key});
 
@@ -64,9 +104,9 @@ class AuthButton extends StatelessWidget {
           ),
           backgroundColor: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.pressed)) {
-              return const Color(0xFF0A0A0A);
+              return AppColors.terminalSurface;
             }
-            return const Color(0xFFFFB000);
+            return AppColors.terminalAmber;
           }),
         ),
         onPressed: onPressed,
@@ -96,35 +136,35 @@ class CustomTextField extends StatelessWidget {
     return TextField(
       controller: textEditingController,
       style: const TextStyle(
-        color: Color(0xFFFFB000),
+        color: AppColors.terminalAmber,
         fontFamily: 'Courier',
         fontSize: 14,
       ),
-      cursorColor: Color(0xFFFFB000),
+      cursorColor: AppColors.terminalAmber,
       decoration: InputDecoration(
         hintText: obj,
         hintStyle: TextStyle(
-          color: const Color(0xFFFFB000).withOpacity(0.4),
+          color: AppColors.terminalAmber.withOpacity(0.4),
           fontFamily: 'Courier',
           letterSpacing: 2,
         ),
         filled: true,
-        fillColor: const Color(0xFF0A0A0A),
+        fillColor: AppColors.terminalSurface,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 18,
         ),
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.zero,
-          borderSide: BorderSide(color: Color(0xFFFFB000), width: 1),
+          borderSide: BorderSide(color: AppColors.terminalAmber, width: 1),
         ),
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.zero,
-          borderSide: BorderSide(color: Color(0xFFFFB000), width: 2),
+          borderSide: BorderSide(color: AppColors.terminalAmber, width: 2),
         ),
         prefixText: '> ',
         prefixStyle: const TextStyle(
-          color: Color(0xFFFFB000),
+          color: AppColors.terminalAmber,
           fontFamily: 'Courier',
         ),
       ),

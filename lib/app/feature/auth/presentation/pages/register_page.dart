@@ -23,19 +23,14 @@ class _RegisterPageState extends State<RegisterPage> {
     final password = passwordcontroller.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Email and password required')),
-      );
+      TerminalOverlay.show(context, 'Email and password required');
       return;
     }
 
     if (!isValidPassword(password)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Password must contain uppercase, lowercase, number and symbol',
-          ),
-        ),
+      TerminalOverlay.show(
+        context,
+        'Password must contain uppercase, lowercase, number and symbol',
       );
       return;
     }
@@ -43,14 +38,11 @@ class _RegisterPageState extends State<RegisterPage> {
     context.read<AuthBloc>().add(
       RegisterRequested(email: email, password: password),
     );
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          "TRANSMISSION COMPLETE \nAN OTP HAS BEEN SENT TO YOUR EMAIL ADDRESS.\nIF THE MESSAGE IS NOT VISIBLE,\nPLEASE CHECK YOUR SPAM FOLDER.",
-        ),
-      ),
+    TerminalOverlay.show(
+      context,
+      "TRANSMISSION COMPLETE \nAN OTP HAS BEEN SENT TO YOUR EMAIL ADDRESS.\nIF THE MESSAGE IS NOT VISIBLE,\nPLEASE CHECK YOUR SPAM FOLDER.",
     );
-    context.go('/verify/$email');
+    context.push('/verify/$email');
   }
 
   @override

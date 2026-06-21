@@ -38,14 +38,11 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is VerificationRequired) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(
-                  "TRANSMISSION COMPLETE\nAN OTP HAS BEEN SENT TO YOUR EMAIL.\nCHECK YOUR SPAM FOLDER.",
-                ),
-              ),
+            TerminalOverlay.show(
+              context,
+              "TRANSMISSION COMPLETE\nAN OTP HAS BEEN SENT TO YOUR EMAIL.\nCHECK YOUR SPAM FOLDER.",
             );
-            context.go('/verify/${state.email}');
+            context.push('/verify/${state.email}');
           } else if (state is Authenticated) {
             context.go('/home');
           }
@@ -81,19 +78,14 @@ class _LoginWidgetState extends State<LoginWidget> {
     final password = passwordcontroller.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Email and password required')),
-      );
+      TerminalOverlay.show(context, 'Email and password required');
       return;
     }
 
     if (!isValidPassword(password)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Password must contain uppercase, lowercase, number and symbol',
-          ),
-        ),
+      TerminalOverlay.show(
+        context,
+        'Password must contain uppercase, lowercase, number and symbol',
       );
       return;
     }
@@ -153,10 +145,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ],
               ),
               SizedBox(height: 22),
-              AuthButton(
-                label: " > LOGIN",
-                onPressed: () => login(),
-              ),
+              AuthButton(label: " > LOGIN", onPressed: () => login()),
             ],
           ),
         ),

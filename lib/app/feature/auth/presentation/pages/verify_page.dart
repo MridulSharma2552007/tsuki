@@ -23,17 +23,13 @@ class _VerifyPageState extends State<VerifyPage> {
   void verify() {
     final code = codeController.text.trim();
     if (code.isEmpty || code.length < 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Enter a valid 6-digit code')),
-      );
+      TerminalOverlay.show(context, 'Enter a valid 6-digit code');
       return;
     }
     context.read<AuthBloc>().add(
       VerifyRequested(email: widget.email, code: code),
     );
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Account Verified You can Log in Now')),
-    );
+    TerminalOverlay.show(context, 'Account Verified You can Log in Now');
   }
 
   @override
@@ -49,9 +45,7 @@ class _VerifyPageState extends State<VerifyPage> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            TerminalOverlay.show(context, state.message);
           } else if (state is Authenticated) {
             context.go('/login');
           }
