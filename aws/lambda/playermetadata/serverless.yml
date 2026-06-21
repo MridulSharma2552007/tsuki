@@ -7,8 +7,6 @@ provider:
   runtime: nodejs18.x
   region: ap-south-1
 
-  environment:
-
 functions:
   api:
     name: tsuki-playermetadata

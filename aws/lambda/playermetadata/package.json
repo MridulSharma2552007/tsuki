@@ -11,5 +11,8 @@
   "description": "",
   "dependencies": {
     "youtubei.js": "^17.0.1"
+  },
+  "devDependencies": {
+    "serverless": "^3.38.0"
   }
 }

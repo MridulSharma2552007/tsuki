@@ -7,4 +7,4 @@ echo "Installing dependencies..."
 npm install
 
 echo "Deploying tsuki-playermetadata..."
-npx serverless@3 deploy
+npx serverless deploy
