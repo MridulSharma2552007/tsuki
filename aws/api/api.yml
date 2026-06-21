@@ -13,7 +13,7 @@ paths:
         httpMethod: POST
         type: aws_proxy
         payloadFormatVersion: "2.0"
-        uri: ${LAMBDA_URI}
+        uri: ${LAMBDA_URI_USERMANAGEMENT}
       responses:
         "200":
           description: OK
@@ -25,7 +25,7 @@ paths:
         httpMethod: POST
         type: aws_proxy
         payloadFormatVersion: "2.0"
-        uri: ${LAMBDA_URI}
+        uri: ${LAMBDA_URI_USERMANAGEMENT}
       responses:
         "200":
           description: OK
@@ -37,7 +37,7 @@ paths:
         httpMethod: POST
         type: aws_proxy
         payloadFormatVersion: "2.0"
-        uri: ${LAMBDA_URI}
+        uri: ${LAMBDA_URI_USERMANAGEMENT}
       responses:
         "200":
           description: OK
@@ -49,7 +49,7 @@ paths:
         httpMethod: POST
         type: aws_proxy
         payloadFormatVersion: "2.0"
-        uri: ${LAMBDA_URI}
+        uri: ${LAMBDA_URI_USERMANAGEMENT}
       responses:
         "200":
           description: OK
@@ -60,7 +60,7 @@ paths:
         httpMethod: POST
         type: aws_proxy
         payloadFormatVersion: "2.0"
-        uri: ${LAMBDA_URI}
+        uri: ${LAMBDA_URI_PLAYERMETADATA}
       responses:
         "200":
           description: OK

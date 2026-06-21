@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 cd "$(dirname "$0")"
@@ -6,18 +6,66 @@ cd "$(dirname "$0")"
 ENV_FILE="env/.env"
 if [ -f "$ENV_FILE" ]; then
   echo "Loading environment from $ENV_FILE"
-  set -a; . "$ENV_FILE"; set +a
+  set -a
+  . "$ENV_FILE"
+  set +a
 fi
 
-if [ -z "${API_ID:-}" ]; then echo "API_ID is not set."; exit 1; fi
-if [ -z "${AWS_REGION:-}" ]; then echo "AWS_REGION is not set."; exit 1; fi
+if [ -z "${API_ID:-}" ]; then
+  echo "API_ID is not set."
+  exit 1
+fi
+
+if [ -z "${AWS_REGION:-}" ]; then
+  echo "AWS_REGION is not set."
+  exit 1
+fi
 
 ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-LAMBDA_URI="arn:aws:apigateway:$AWS_REGION:lambda:path/2015-03-31/functions/arn:aws:lambda:$AWS_REGION:$ACCOUNT_ID:function:tsuki-usermanagement/invocations"
+
+build_lambda_uri() {
+  local function_name="$1"
+  printf 'arn:aws:apigateway:%s:lambda:path/2015-03-31/functions/arn:aws:lambda:%s:%s:function:%s/invocations' \
+    "$AWS_REGION" "$AWS_REGION" "$ACCOUNT_ID" "$function_name"
+}
+
+for env_var in $(compgen -v | grep -E '^LAMBDA_FUNCTION_NAME(_|$)' || true); do
+  if [ "$env_var" = "LAMBDA_FUNCTION_NAME" ]; then
+    uri_var="LAMBDA_URI"
+  else
+    uri_var="${env_var/LAMBDA_FUNCTION_NAME/LAMBDA_URI}"
+  fi
+
+  if [ -n "${!env_var:-}" ] && [ -z "${!uri_var:-}" ]; then
+    export "$uri_var"="$(build_lambda_uri "${!env_var}")"
+  fi
+done
+
+for env_var in $(compgen -v | grep -E '^LAMBDA_NAME(_|$)' || true); do
+  if [ "$env_var" = "LAMBDA_NAME" ]; then
+    uri_var="LAMBDA_URI"
+  else
+    uri_var="${env_var/LAMBDA_NAME/LAMBDA_URI}"
+  fi
+
+  if [ -n "${!env_var:-}" ] && [ -z "${!uri_var:-}" ]; then
+    export "$uri_var"="$(build_lambda_uri "${!env_var}")"
+  fi
+done
 
 TEMP_FILE="api-temp.yml"
 cp api.yml "$TEMP_FILE"
-sed -i "s|\${LAMBDA_URI}|$LAMBDA_URI|g" "$TEMP_FILE"
+
+placeholders=$(grep -o '\${[^}]*}' "$TEMP_FILE" | tr -d '\${}' | sort -u)
+for placeholder in $placeholders; do
+  if [ -n "${!placeholder:-}" ]; then
+    value="${!placeholder}"
+  else
+    echo "Missing value for placeholder: $placeholder"
+    exit 1
+  fi
+  sed -i "s|\\${$placeholder}|$value|g" "$TEMP_FILE"
+done
 
 CLI_OPTS="--cli-binary-format raw-in-base64-out"
 
@@ -26,13 +74,34 @@ aws apigatewayv2 reimport-api \
   $CLI_OPTS --api-id "$API_ID" \
   --body "file://$TEMP_FILE"
 
-aws lambda add-permission \
-  --function-name tsuki-usermanagement \
-  --statement-id apigateway-invoke \
-  --action lambda:InvokeFunction \
-  --principal apigateway.amazonaws.com \
-  --source-arn "arn:aws:execute-api:$AWS_REGION:$ACCOUNT_ID:$API_ID/*/*" \
-  2>/dev/null || true
+for env_var in $(compgen -v | grep -E '^LAMBDA_URI(_|$)' || true); do
+  function_name=${env_var}
+  if [[ "$env_var" == LAMBDA_URI ]]; then
+    target_function_name="${LAMBDA_FUNCTION_NAME:-}"
+  else
+    target_function_name="${env_var/LAMBDA_URI/LAMBDA_FUNCTION_NAME}"
+    target_function_name="${!target_function_name:-}"
+  fi
+
+  if [ -n "${!env_var:-}" ]; then
+    if [ -n "${!target_function_name:-}" ]; then
+      function_name="${!target_function_name}"
+    else
+      # Extract the function name from the URI if not set explicitly
+      function_name=$(echo "${!env_var}" | sed -E 's|.*/function:([^/]+)/invocations$|\1|')
+    fi
+
+    if [ -n "$function_name" ]; then
+      aws lambda add-permission \
+        --function-name "$function_name" \
+        --statement-id "apigateway-invoke-$function_name" \
+        --action lambda:InvokeFunction \
+        --principal apigateway.amazonaws.com \
+        --source-arn "arn:aws:execute-api:$AWS_REGION:$ACCOUNT_ID:$API_ID/*/*" \
+        2>/dev/null || true
+    fi
+  fi
+done
 
 aws apigatewayv2 create-deployment \
   --api-id "$API_ID" --stage-name '$default' 2>/dev/null || true
