@@ -4,14 +4,35 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tsuki/app/feature/auth/bloc/auth_bloc.dart';
 import 'package:tsuki/app/feature/auth/bloc/auth_state.dart';
 import 'package:tsuki/core/constants/ascii.dart';
+import 'package:tsuki/core/theme/app_text_style.dart';
 import 'package:tsuki/utils/app_colors.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  late final PageController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = PageController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: AppColors.primaryBg,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
@@ -22,7 +43,13 @@ class LoginPage extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          return PageView(children: [loginwidget()]);
+          return PageView(
+            controller: controller,
+            children: [
+              loginwidget(controller: controller),
+              Column(children: [Center(child: Text('PAGE 1'))]),
+            ],
+          );
         },
       ),
     );
@@ -30,69 +57,135 @@ class LoginPage extends StatelessWidget {
 }
 
 class loginwidget extends StatelessWidget {
-  const loginwidget({super.key});
+  final PageController _controller;
+  const loginwidget({super.key, required PageController controller})
+    : _controller = controller;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            Ascii.onboardAscii,
-            style: TextStyle(
-              fontSize: 8,
-              fontFamily: 'Courier',
-              color: AppColors.secondary,
-            ),
+    return Center(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                Ascii.onboardAscii,
+                style: TextStyle(
+                  fontSize: 8,
+                  fontFamily: 'Courier',
+                  color: AppColors.secondary,
+                ),
+              ),
+              Text(
+                Ascii.tsukiArt,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'Courier',
+                  color: AppColors.secondary,
+                ),
+              ),
+              SizedBox(height: 40),
+              CustomTextField(obj: 'EMAIL'),
+              SizedBox(height: 40),
+              CustomTextField(obj: 'PASSWORD'),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () => _controller.animateToPage(
+                      1,
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                    ),
+                    child: Text(
+                      'New Here Create a account?',
+                      style: TextStyle(
+                        color: AppColors.secondary,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 22),
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    shape: WidgetStateProperty.all(
+                      const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                    ),
+                    backgroundColor: WidgetStateProperty.resolveWith((states) {
+                      if (states.contains(WidgetState.pressed)) {
+                        return const Color(0xFF0A0A0A);
+                      }
+                      return const Color(0xFFFFB000);
+                    }),
+                  ),
+                  onPressed: () {},
+                  child: Text(
+                    " > LOGIN",
+                    style: TextStyle(
+                      fontFamily: 'Courier',
+                      color: AppColors.primaryBg,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          Text(
-            Ascii.tsukiArt,
-            style: TextStyle(
-              fontSize: 12,
-              fontFamily: 'Courier',
-              color: AppColors.secondary,
-            ),
-          ),
-          SizedBox(height: 40),
-          TextField(
-            style: const TextStyle(
-              color: Color(0xFFFFB000),
-              fontFamily: 'Courier',
-              fontSize: 14,
-            ),
-            cursorColor: Color(0xFFFFB000),
-            decoration: InputDecoration(
-              hintText: 'EMAIL',
-              hintStyle: TextStyle(
-                color: const Color(0xFFFFB000).withOpacity(0.4),
-                fontFamily: 'Courier',
-                letterSpacing: 2,
-              ),
-              filled: true,
-              fillColor: const Color(0xFF0A0A0A),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 18,
-              ),
-              enabledBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(color: Color(0xFFFFB000), width: 1),
-              ),
-              focusedBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(color: Color(0xFFFFB000), width: 2),
-              ),
-              prefixText: '> ',
-              prefixStyle: const TextStyle(
-                color: Color(0xFFFFB000),
-                fontFamily: 'Courier',
-              ),
-            ),
-          ),
-        ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomTextField extends StatelessWidget {
+  final String obj;
+  const CustomTextField({super.key, required this.obj});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      style: const TextStyle(
+        color: Color(0xFFFFB000),
+        fontFamily: 'Courier',
+        fontSize: 14,
+      ),
+      cursorColor: Color(0xFFFFB000),
+      decoration: InputDecoration(
+        hintText: obj,
+        hintStyle: TextStyle(
+          color: const Color(0xFFFFB000).withOpacity(0.4),
+          fontFamily: 'Courier',
+          letterSpacing: 2,
+        ),
+        filled: true,
+        fillColor: const Color(0xFF0A0A0A),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 18,
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.zero,
+          borderSide: BorderSide(color: Color(0xFFFFB000), width: 1),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.zero,
+          borderSide: BorderSide(color: Color(0xFFFFB000), width: 2),
+        ),
+        prefixText: '> ',
+        prefixStyle: const TextStyle(
+          color: Color(0xFFFFB000),
+          fontFamily: 'Courier',
+        ),
       ),
     );
   }
