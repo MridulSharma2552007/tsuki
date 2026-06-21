@@ -78,23 +78,18 @@ aws apigatewayv2 reimport-api \
   --body "file://$TEMP_FILE"
 
 for env_var in $(compgen -v | grep -E '^LAMBDA_URI(_|$)' || true); do
-  function_name=${env_var}
-  if [[ "$env_var" == LAMBDA_URI ]]; then
-    target_function_name="${LAMBDA_FUNCTION_NAME:-}"
+  if [[ "$env_var" == "LAMBDA_URI" ]]; then
+    function_name="${LAMBDA_FUNCTION_NAME:-}"
   else
-    target_function_name="${env_var/LAMBDA_URI/LAMBDA_FUNCTION_NAME}"
-    target_function_name="${!target_function_name:-}"
+    name_var="${env_var/LAMBDA_URI/LAMBDA_FUNCTION_NAME}"
+    function_name="${!name_var:-}"
   fi
 
-  if [ -n "${!env_var:-}" ]; then
-    if [ -n "${!target_function_name:-}" ]; then
-      function_name="${!target_function_name}"
-    else
-      # Extract the function name from the URI if not set explicitly
-      function_name=$(echo "${!env_var}" | sed -E 's|.*/function:([^/]+)/invocations$|\1|')
-    fi
+  if [ -n "${!env_var:-}" ] && [ -z "$function_name" ]; then
+    function_name=$(echo "${!env_var}" | sed -E 's|.*/function:([^/]+)/invocations$|\1|')
+  fi
 
-    if [ -n "$function_name" ]; then
+  if [ -n "$function_name" ]; then
       aws lambda add-permission \
         --function-name "$function_name" \
         --statement-id "apigateway-invoke-$function_name" \
@@ -102,7 +97,6 @@ for env_var in $(compgen -v | grep -E '^LAMBDA_URI(_|$)' || true); do
         --principal apigateway.amazonaws.com \
         --source-arn "arn:aws:execute-api:$AWS_REGION:$ACCOUNT_ID:$API_ID/*/*" \
         2>/dev/null || true
-    fi
   fi
 done
 
