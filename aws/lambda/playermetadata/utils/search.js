@@ -29,11 +29,20 @@ exports.search = async (event) => {
       "[SEARCH] Results keys:",
       results ? Object.keys(results) : "null",
     );
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(results),
-    };
+    const songs = results.contents[0].contents.map((song) => ({
+      id: song.id,
+      title: song.title,
+      artist: song.artists?.[0]?.name,
+      duration: song.duration?.text,
+      thumbnail: song.thumbnail?.contents?.[0]?.url,
+      youtubeUrl: `https://www.youtube.com/watch?v=${song.id}`,
+    }));
+ return {
+  statusCode: 200,
+  body: JSON.stringify({
+    songs,
+  }),
+};
   } catch (error) {
     console.log("[SEARCH] ERROR:", error);
     console.log("[SEARCH] Error name:", error.name);
