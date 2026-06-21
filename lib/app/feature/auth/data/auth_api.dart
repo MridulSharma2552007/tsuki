@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'dart:convert';
 
 class AuthApi {
   final Dio dio;
@@ -9,22 +10,28 @@ class AuthApi {
       '/auth/login',
       data: {'email': email, 'password': password},
     );
-    return response.data;
+
+    print('[API] RESPONSE TYPE: ${response.data.runtimeType}');
+    print('[API] RESPONSE: ${response.data}');
+
+    return jsonDecode(response.data);
   }
 
   Future<Map<String, dynamic>> register(String email, String password) async {
+    print('[API] REGISTER ');
     final response = await dio.post(
       '/auth/register',
       data: {'email': email, 'password': password},
     );
-    return response.data;
+    return jsonDecode(response.data);
   }
 
   Future<Map<String, dynamic>> verify(String email, String code) async {
+    print('[API] VERIFY ');
     final response = await dio.post(
       '/auth/verify',
       data: {'email': email, 'code': code},
     );
-    return response.data;
+    return jsonDecode(response.data);
   }
 }

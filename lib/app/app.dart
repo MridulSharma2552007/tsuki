@@ -5,6 +5,7 @@ import 'package:tsuki/app/feature/auth/data/auth_api.dart';
 import 'package:tsuki/app/feature/auth/data/auth_repository.dart';
 import 'package:tsuki/app/router/app_routes.dart';
 import 'package:tsuki/core/network/api_client.dart';
+import 'package:tsuki/core/storage/secure_storage_service.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -13,7 +14,10 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<AuthBloc>(
       create: (_) => AuthBloc(
-        AuthRepository(AuthApi(ApiClient().dio)),
+        AuthRepository(
+          AuthApi(ApiClient().dio),
+          storage: SecureStorageService(),
+        ),
       ),
       child: MaterialApp.router(routerConfig: appRouter),
     );
