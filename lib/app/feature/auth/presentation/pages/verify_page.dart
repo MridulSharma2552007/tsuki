@@ -31,6 +31,9 @@ class _VerifyPageState extends State<VerifyPage> {
     context.read<AuthBloc>().add(
       VerifyRequested(email: widget.email, code: code),
     );
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Account Verified You can Log in Now')),
+    );
   }
 
   @override
@@ -46,11 +49,11 @@ class _VerifyPageState extends State<VerifyPage> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           } else if (state is Authenticated) {
-            context.go('/home');
+            context.go('/login');
           }
         },
         builder: (context, state) {
@@ -65,10 +68,7 @@ class _VerifyPageState extends State<VerifyPage> {
                     const SizedBox(height: 20),
                     tsukiascii(),
                     const SizedBox(height: 40),
-                    Text(
-                      'VERIFY OTP',
-                      style: AppTextStyles.terminalTitle,
-                    ),
+                    Text('VERIFY OTP', style: AppTextStyles.terminalTitle),
                     const SizedBox(height: 10),
                     SizedBox(
                       width: double.infinity,
