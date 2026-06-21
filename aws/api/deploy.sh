@@ -64,7 +64,10 @@ for placeholder in $placeholders; do
     echo "Missing value for placeholder: $placeholder"
     exit 1
   fi
-  sed -i "s|\\${${placeholder}}|$value|g" "$TEMP_FILE"
+
+  placeholder_literal="\${${placeholder}}"
+  escaped_value=$(printf '%s' "$value" | sed -e 's/[&|\\]/\\&/g')
+  sed -i "s|$placeholder_literal|$escaped_value|g" "$TEMP_FILE"
 done
 
 CLI_OPTS="--cli-binary-format raw-in-base64-out"
