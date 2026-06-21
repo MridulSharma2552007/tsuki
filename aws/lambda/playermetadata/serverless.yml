@@ -11,3 +11,5 @@ functions:
   api:
     name: tsuki-playermetadata
     handler: handler.handler
+    timeout: 30
+    memorySize: 1024
