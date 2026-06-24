@@ -1,4 +1,5 @@
 const { search } = require("./utils/search");
+const { home } = require("./utils/home");
 
 exports.handler = async (event) => {
   const path = event.rawPath;
@@ -38,6 +39,9 @@ exports.handler = async (event) => {
   if (path === "/metadata/search" && method === "GET") {
     console.log("[HANDLER] Routing to search handler");
     return await search(event);
+  }
+  if (path === "/metadata/home" && method === "GET") {
+    return await home(event);
   }
 
   console.log("[HANDLER] No matching route — returning 404");
