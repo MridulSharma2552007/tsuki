@@ -1,30 +1,10 @@
 const { search } = require("./utils/search");
 const { home } = require("./utils/home");
+const tsuki_featured = require("./utils/tsuki_featured");
 
 exports.handler = async (event) => {
   const path = event.rawPath;
   const method = event.requestContext.http.method;
-  console.log("[HANDLER] Incoming event:", JSON.stringify(event, null, 2));
-  console.log("[HANDLER] Path:", path, "| Method:", method);
-  console.log("[HANDLER] Headers:", JSON.stringify(event.headers));
-  console.log("[HANDLER] Body raw:", event.body);
-  console.log(
-    "[HANDLER] Query params:",
-    JSON.stringify(event.queryStringParameters),
-  );
-  console.log(
-    "[HANDLER] Stage variables:",
-    JSON.stringify(event.stageVariables),
-  );
-  console.log(
-    "[HANDLER] Request context:",
-    JSON.stringify(event.requestContext),
-  );
-  console.log(
-    "[HANDLER] Identity source IP:",
-    event.requestContext?.http?.sourceIp,
-  );
-  console.log("[HANDLER] User agent:", event.requestContext?.http?.userAgent);
 
   if (path === "/metadata/health" && method === "GET") {
     console.log("[HANDLER] Health check hit");
@@ -37,14 +17,15 @@ exports.handler = async (event) => {
   }
 
   if (path === "/metadata/search" && method === "GET") {
-    console.log("[HANDLER] Routing to search handler");
     return await search(event);
   }
   if (path === "/metadata/home" && method === "GET") {
     return await home(event);
   }
+  if (path === "/metadata/featured" && method === "GET") {
+    return await tsuki_featured(event);
+  }
 
-  console.log("[HANDLER] No matching route — returning 404");
   return {
     statusCode: 404,
     body: JSON.stringify({

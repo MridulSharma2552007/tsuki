@@ -1,0 +1,186 @@
+{
+  "artists": [
+    {
+      "id": "UCE5eDJ9T05bGzDvJ5QYsdJQ",
+      "name": "The Cranberries",
+      "thumbnail": "https://lh3.googleusercontent.com/pZ_UQsFXAT20pP0z3kByflRTEXDW2scHw4PH_egN6wHq-z_dc_Ob50kdyFzYqYYMM3-b0zXpf4mNlhsY=w60-h60-p-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/channel/UCE5eDJ9T05bGzDvJ5QYsdJQ"
+    },
+    {
+      "id": "UC2-FSdgJuTx7XoKjzAku4TQ",
+      "name": "The Sundays",
+      "thumbnail": "https://lh3.googleusercontent.com/naaW4g7u4WaLoMsAAoCNoz8cPWd1XzB-ZHRnx__SId1A8ENXna-ZieQh9K74YRfxPJtftfcLIufReZY=w60-h60-p-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/channel/UC2-FSdgJuTx7XoKjzAku4TQ"
+    },
+    {
+      "id": "UCakZhp9mKwdF46VWUWE2Gmg",
+      "name": "Current Joys",
+      "thumbnail": "https://yt3.googleusercontent.com/RmUCsjblF3Wy8ahnONwnUkLVOwR1_xqpltYtog_V1daknCkAwubpiPbsvATpOg8xciKljre7hOmqHQ=w60-h60-p-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/channel/UCakZhp9mKwdF46VWUWE2Gmg"
+    },
+    {
+      "id": "UCklWLf-5N7mE8S06rj2OrQw",
+      "name": "The Smiths",
+      "thumbnail": "https://lh3.googleusercontent.com/QM50T3vF6Hvr3coPEdwB7OImuH6f2ktU3-X6LgjpCnrSukGj9fmDkY84rOcR3Ye8OWToWwGWA9QaE5Q=w60-h60-p-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/channel/UCklWLf-5N7mE8S06rj2OrQw"
+    },
+    {
+      "id": "UCi8cblgb3PyU8HzGvXWhuEg",
+      "name": "Mazzy Star",
+      "thumbnail": "https://lh3.googleusercontent.com/y3ADRvN-Q9AE29nllza62neRhrJSlS8AI6uYDnKOwMUOcCOT8iEpA4imewy6LQ3xJ4rU0ert0aX1OQ=w60-h60-p-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/channel/UCi8cblgb3PyU8HzGvXWhuEg"
+    },
+    {
+      "id": "UC2o9vA6xBUQE6Tmk86oYQig",
+      "name": "Slowdive",
+      "thumbnail": "https://lh3.googleusercontent.com/jJ7e7kE3rILqkPvJPZ3wgna1kHQSnqQng3xuj_XLpLK2sEQ_xQR6mUr4dfne29nmlf6rAB-WqV5DTQhy=w60-h60-p-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/channel/UC2o9vA6xBUQE6Tmk86oYQig"
+    },
+    {
+      "id": "UCZkINlw1KmC1GiOqyx3tBPA",
+      "name": "duster",
+      "thumbnail": "https://lh3.googleusercontent.com/WLPltYjPEk1gmohfk5uKQCcFUzj06alBvgYOfbqwbTV65D0Rw4qqlyyQv-gJGzKkQ79s6pYJ744X10s=w60-h60-p-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/channel/UCZkINlw1KmC1GiOqyx3tBPA"
+    }
+  ],
+  "albums": [
+    {
+      "id": "MPREb_w4FkzanBBnt",
+      "title": "Is This It",
+      "artist": "The Strokes",
+      "thumbnail": "https://yt3.googleusercontent.com/pC3z_hnQSQCi4PGNdImJyFwOUwuneY39EnsMiGZhqjREZMxWnpSptv97zcl7nLojlf4KeOj5z25DZjpS=w60-h60-l90-rj"
+    },
+    {
+      "id": "MPREb_mlXbTrIR7FC",
+      "title": "Everybody Else Is Doing It, So Why Can't We?",
+      "artist": "The Cranberries",
+      "thumbnail": "https://yt3.googleusercontent.com/KSVwuUiZ-ls0tZdW5mep53BT0L4ox_MLLqQAKGVoK1I_12U0TBXywm72QcF78Nx_SqTTuwYyXJPXWukk=w60-h60-s-l90-rj"
+    },
+    {
+      "id": "MPREb_fvf11XfSLDZ",
+      "title": "Reading Writing And Arithmetic",
+      "artist": "The Sundays",
+      "thumbnail": "https://yt3.googleusercontent.com/aWBwPRBh7uzEzco_BrImihW0LwULDPST2uvpicWC1pms24VyqSEBsR9mv7c_CU2gP0PfNIOBQ3xsUr_0=w60-h60-l90-rj"
+    },
+    {
+      "id": "MPREb_ZrpKmDmN1nb",
+      "title": "The La's",
+      "artist": "The La's",
+      "thumbnail": "https://yt3.googleusercontent.com/yULJvcXuTSbBBVA9jYixDU7ArCqlx8CK0ztB3JAiZKHj0cAjOrLoF5Go2nuwg7A--bnb69C12tjUGRfd6w=w60-h60-l90-rj"
+    }
+  ],
+  "songs": [
+    {
+      "id": "9MOPMisDTiw",
+      "title": "The Night We Met (feat. Phoebe Bridgers)",
+      "artist": "Lord Huron",
+      "duration": "3:29",
+      "thumbnail": "https://yt3.googleusercontent.com/b4wDieaCv0z4TSHFZevTH9YyOBsTLrwKXb6LdAayWOvp8wWoh4OieaDN855n6_oM-v3ivyxq7IDnxuZR3A=w60-h60-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9MOPMisDTiw"
+    },
+    {
+      "id": "4PgOJwUCdIc",
+      "title": "About You",
+      "artist": "The 1975",
+      "duration": "5:27",
+      "thumbnail": "https://yt3.googleusercontent.com/EJyMOOnJOpAlg8FYaNZwNVrtQOXFzF12tplXLVMX-SInL_kq_AeuJoR-4KnMJBn2zjjBL-_I1tPiTWhe=w60-h60-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4PgOJwUCdIc"
+    },
+    {
+      "id": "DdI598gKkKw",
+      "title": "Apocalypse",
+      "artist": "Cigarettes After Sex",
+      "duration": "4:51",
+      "thumbnail": "https://yt3.googleusercontent.com/LHBhxCNvBYMqTtgBAOf83nUpFKI6DH-jGw0u6SAM3WnQ-OGXD8geTcB3P10nLolxqj8WItfiGL7kX7vv=w60-h60-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=DdI598gKkKw"
+    },
+    {
+      "id": "avv2IIdDnnk",
+      "title": "Fade Into You",
+      "artist": "Mazzy Star",
+      "duration": "4:56",
+      "thumbnail": "https://yt3.googleusercontent.com/c8ZWpmUOSyQ-Tx-Le_8eNVVLSFUYqvUQRaVAuZSEL8xex1p3SA0r7rkwu6vdsRZuXRjX3Mk7PPzz5ic_=w60-h60-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=avv2IIdDnnk"
+    },
+    {
+      "id": "qYcoJpqCha4",
+      "title": "aruarian dance",
+      "artist": "Nujabes",
+      "duration": "4:11",
+      "thumbnail": "https://yt3.googleusercontent.com/dRSmWmXBokcabAm-1EtHCdaHbU2uwKrI79_7eelhDxCTArIB9-XZn7rawvDEnqbKC5hSR1KZDlhpqsQ=w60-h60-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=qYcoJpqCha4"
+    },
+    {
+      "id": "HN-KHZ9NDVA",
+      "title": "When the Sun Hits",
+      "artist": "Slowdive",
+      "duration": "4:46",
+      "thumbnail": "https://yt3.googleusercontent.com/XrJIrF91cAxDgx3D8aZvjRms3bEJEPiE75TDhQpENWJU-zk2pGTczl4HJxkMP9GlH-2rog57AL26ikflxg=w60-h60-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=HN-KHZ9NDVA"
+    },
+    {
+      "id": "PXDlU0YDQ6U",
+      "title": "Linger",
+      "artist": "The Cranberries",
+      "duration": "4:35",
+      "thumbnail": "https://yt3.googleusercontent.com/KSVwuUiZ-ls0tZdW5mep53BT0L4ox_MLLqQAKGVoK1I_12U0TBXywm72QcF78Nx_SqTTuwYyXJPXWukk=w60-h60-s-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=PXDlU0YDQ6U"
+    },
+    {
+      "id": "XYrOmT72xZk",
+      "title": "Here Comes Your Man",
+      "artist": "Pixies",
+      "duration": "3:22",
+      "thumbnail": "https://yt3.googleusercontent.com/xiDNWIqv4mEebzY-NrENlQvdp5bK915RCWmTAzwNW6ZmBAeRd4cfzd_hKG1S0D6ELdK6N5bUuYbHN1fT=w60-h60-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=XYrOmT72xZk"
+    },
+    {
+      "id": "D7DVSZ_poHk",
+      "title": "Swing Lynn",
+      "artist": "Harmless",
+      "duration": "5:22",
+      "thumbnail": "https://yt3.googleusercontent.com/cwvv3JmioTEvmgLNgcbHUXy76R_xlsrpH-vxspkyZtaXJRc5UeQYLzIpyf0v_D1PQ33zLqNAIzSUwfEIOA=w60-h60-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=D7DVSZ_poHk"
+    },
+    {
+      "id": "26Uo_l5Iipo",
+      "title": "K.",
+      "artist": "Cigarettes After Sex",
+      "duration": "5:20",
+      "thumbnail": "https://yt3.googleusercontent.com/LHBhxCNvBYMqTtgBAOf83nUpFKI6DH-jGw0u6SAM3WnQ-OGXD8geTcB3P10nLolxqj8WItfiGL7kX7vv=w60-h60-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=26Uo_l5Iipo"
+    },
+    {
+      "id": "1_tjOgqG8Yc",
+      "title": "My Kind of Woman",
+      "artist": "Mac DeMarco",
+      "duration": "2",
+      "thumbnail": "https://yt3.googleusercontent.com/LC0shz_kME7lcy4qnRRbnZlnzanOFRN3wausqBk9MOAIK08kE3_IVPla9m6Xp2n-yvJ2S1ZeL2TzbxEA=w60-h60-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=1_tjOgqG8Yc"
+    },
+    {
+      "id": "7riZgMO8QSU",
+      "title": "Dreams Tonite",
+      "artist": "Alvvays",
+      "duration": "3:17",
+      "thumbnail": "https://yt3.googleusercontent.com/s4aztlnvwtDdxFxLCeoREKOsXnGw3ghTd2XyBLVcvTkjhiEmj15H8_3AXWm4B158e3wqOZeVMS6lBjHFlQ=w60-h60-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7riZgMO8QSU"
+    },
+    {
+      "id": "7374CZQoS2Y",
+      "title": "No Surprises",
+      "artist": "Radiohead",
+      "duration": "3:49",
+      "thumbnail": "https://yt3.googleusercontent.com/gdMTA2cTkNFr6COYNygeVpgIpxR2yNg5MjaX02OQqmsU6NlymcR2mqWR0UZe2HaBYVSTHU8lIQamafQC=w60-h60-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7374CZQoS2Y"
+    },
+    {
+      "id": "abW7Cr9Vo_M",
+      "title": "Blue Hair",
+      "artist": "TV Girl",
+      "duration": "3:37",
+      "thumbnail": "https://yt3.googleusercontent.com/fPdVeGe4CpIMpcTMhZPdQtjV6x6XM4OHdgHrGZHGi4KZRnWXkDFqb51buqG9KdI1Ek4V2MTe5stZxCg=w60-h60-l90-rj",
+      "youtubeUrl": "https://www.youtube.com/watch?v=abW7Cr9Vo_M"
+    }
+  ]
+}
