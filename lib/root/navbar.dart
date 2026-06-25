@@ -14,9 +14,9 @@ class Navbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
       child: Container(
-        height: 60,
+        height: 100,
         width: double.infinity,
         decoration: BoxDecoration(
           color: AppColors.terminalSurface,

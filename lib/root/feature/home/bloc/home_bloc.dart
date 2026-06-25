@@ -1,0 +1,19 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tsuki/root/feature/home/bloc/home_event.dart';
+import 'package:tsuki/root/feature/home/bloc/home_state.dart';
+import 'package:tsuki/root/feature/home/data/home_repository.dart';
+
+class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  final HomeRepository repository;
+  HomeBloc(this.repository) : super(HomeInitial()) {
+    on<GetFeaturedFeed>((event, emit) async {
+      emit(HomeLoading());
+      try {
+        await repository.getFeaturedFeed();
+        emit(HomeDataLoaded());
+      } catch (e) {
+        print(e);
+      }
+    });
+  }
+}
