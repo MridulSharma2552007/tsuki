@@ -9,8 +9,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<GetFeaturedFeed>((event, emit) async {
       emit(HomeLoading());
       try {
-        await repository.getFeaturedFeed();
-        emit(HomeDataLoaded());
+        final response = await repository.getFeaturedFeed();
+
+        emit(HomeDataLoaded(response));
       } catch (e) {
         print(e);
       }
