@@ -31,7 +31,7 @@ class _AuthGateState extends State<AuthGate> {
     if (!mounted) return;
 
     if (hasJwt) {
-      context.go('/home');
+      context.go('/root');
     } else {
       context.go('/login');
     }
