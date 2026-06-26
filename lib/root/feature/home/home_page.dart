@@ -7,6 +7,8 @@ import 'package:tsuki/root/feature/home/widgets/album_home_big.dart';
 import 'package:tsuki/root/feature/home/widgets/artist_home_big.dart';
 import 'package:tsuki/root/feature/home/widgets/featured_album.dart';
 import 'package:tsuki/root/feature/home/widgets/featured_artist.dart';
+import 'package:tsuki/root/feature/home/widgets/featured_songs.dart';
+import 'package:tsuki/root/feature/home/widgets/song_tile_small.dart';
 import 'package:tsuki/root/feature/home/widgets/tsuki_header.dart';
 import 'package:tsuki/utils/app_colors.dart';
 import 'package:tsuki/widgets/tsuki_loader.dart';
@@ -36,34 +38,49 @@ class _HomePageState extends State<HomePage> {
           }
 
           if (state is HomeDataLoaded) {
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 30, top: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '[Featured]',
-                      style: TextStyle(
-                        color: AppColors.terminalAmber,
-                        fontSize: 20,
+            return ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, top: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '[Featured]',
+                        style: TextStyle(
+                          color: AppColors.terminalAmber,
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    FeaturedArtist(artists: state.featured.artists),
-                    SizedBox(height: 20),
-                    Text(
-                      '[Featured Albums]',
-                      style: TextStyle(
-                        color: AppColors.terminalAmber,
-                        fontSize: 20,
+                      SizedBox(height: 20),
+                      FeaturedArtist(artists: state.featured.artists),
+                      SizedBox(height: 20),
+                      Text(
+                        '[Featured Albums]',
+                        style: TextStyle(
+                          color: AppColors.terminalAmber,
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    FeaturedAlbum(albums: state.featured.albums),
-                  ],
+                      SizedBox(height: 20),
+                      FeaturedAlbum(albums: state.featured.albums),
+                      SizedBox(height: 20),
+                      Text(
+                        "[Featured Songs]",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: AppColors.terminalAmber,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: FeaturedSongs(songs: state.featured.songs),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             );
           }
 
