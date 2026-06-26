@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tsuki/utils/app_colors.dart';
 
@@ -26,8 +27,25 @@ class ArtistHomeBig extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
             ),
             child: ClipRRect(
-              borderRadius: BorderRadiusGeometry.circular(100),
-              child: Image.network(artistImageUrl, fit: BoxFit.cover),
+              borderRadius: BorderRadius.circular(100),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.network(
+                  artistImageUrl,
+                  width: 150,
+                  height: 150,
+                  fit: BoxFit.cover,
+                  filterQuality: FilterQuality.high,
+                  loadingBuilder: (context, child, progress) {
+                    if (progress == null) return child;
+                    return Container(
+                      color: AppColors.terminalAmber.withOpacity(0.1),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.error),
+                ),
+              ),
             ),
           ),
         ),

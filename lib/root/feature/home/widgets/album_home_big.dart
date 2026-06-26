@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tsuki/utils/app_colors.dart';
 
@@ -17,7 +18,20 @@ class AlbumHomeBig extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.terminalAmber),
             ),
-            child: Image.network(imageUrl, fit: BoxFit.cover),
+            child: Image.network(
+              imageUrl,
+              width: 150,
+              height: 100,
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.high,
+              loadingBuilder: (context, child, progress) {
+                if (progress == null) return child;
+                return Container(
+                    color: AppColors.terminalAmber.withOpacity(0.1));
+              },
+              errorBuilder: (context, error, stackTrace) =>
+                  const Icon(Icons.error),
+            ),
           ),
         ),
         SizedBox(

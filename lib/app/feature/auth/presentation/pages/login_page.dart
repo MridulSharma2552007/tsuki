@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
             );
             context.push('/verify/${state.email}');
           } else if (state is Authenticated) {
-            context.go('/home');
+            context.go('/root');
           }
         },
         builder: (context, state) {

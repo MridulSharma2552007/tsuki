@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tsuki/utils/app_colors.dart';
 
@@ -31,7 +32,20 @@ class SongTileSmall extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(color: AppColors.terminalAmber),
               ),
-              child: Image.network(thumbnail, fit: BoxFit.cover),
+              child: Image.network(
+                thumbnail,
+                width: 64,
+                height: 64,
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.high,
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return Container(
+                      color: AppColors.terminalAmber.withOpacity(0.1));
+                },
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.error),
+              ),
             ),
           ),
           Expanded(

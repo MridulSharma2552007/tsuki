@@ -47,7 +47,7 @@ class _VerifyPageState extends State<VerifyPage> {
           if (state is AuthError) {
             TerminalOverlay.show(context, state.message);
           } else if (state is Authenticated) {
-            context.go('/login');
+            context.go('/root');
           }
         },
         builder: (context, state) {
