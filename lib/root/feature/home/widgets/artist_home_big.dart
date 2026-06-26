@@ -33,7 +33,16 @@ class ArtistHomeBig extends StatelessWidget {
         ),
 
         SizedBox(height: 10),
-        Text(artistName, style: TextStyle(color: AppColors.terminalAmber)),
+        SizedBox(
+          width: 150,
+          child: Text(
+            artistName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: AppColors.terminalAmber),
+          ),
+        ),
       ],
     );
   }
