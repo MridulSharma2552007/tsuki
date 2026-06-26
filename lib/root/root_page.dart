@@ -25,7 +25,7 @@ class _RootPageState extends State<RootPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 30, top: 40, bottom: 20),
+            padding: const EdgeInsets.only(left: 30, top: 40, bottom: 10),
             child: TsukiHeader(),
           ),
           Expanded(
