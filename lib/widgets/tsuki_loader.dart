@@ -19,7 +19,10 @@ class _TsukiLoaderState extends State<TsukiLoader> {
   void initState() {
     super.initState();
     time = Timer.periodic(Duration(milliseconds: 100), (_) {
-      currentFrame = (currentFrame + 1) % frames.length;
+      if (!mounted) return;
+      setState(() {
+        currentFrame = (currentFrame + 1) % frames.length;
+      });
     });
   }
 
@@ -33,7 +36,7 @@ class _TsukiLoaderState extends State<TsukiLoader> {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        "Loading${frames[currentFrame]}",
+        "Loading ${frames[currentFrame]}",
         style: TextStyle(color: AppColors.terminalAmber, fontSize: 20),
       ),
     );
