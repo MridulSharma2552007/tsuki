@@ -16,7 +16,7 @@ class Navbar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
       child: Container(
-        height: 100,
+        height: 60,
         width: double.infinity,
         decoration: BoxDecoration(
           color: AppColors.terminalSurface,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tsuki/root/feature/home/home_page.dart';
+import 'package:tsuki/root/feature/home/widgets/tsuki_header.dart';
 import 'package:tsuki/root/feature/playlist/playlist_page.dart';
 import 'package:tsuki/root/feature/search/search_page.dart';
 import 'package:tsuki/root/feature/settings/settings_page.dart';
@@ -21,7 +22,12 @@ class _RootPageState extends State<RootPage> {
     return Scaffold(
       backgroundColor: AppColors.terminalSurface,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 30, top: 40, bottom: 20),
+            child: TsukiHeader(),
+          ),
           Expanded(
             child: IndexedStack(index: currentIndex, children: pages),
           ),
