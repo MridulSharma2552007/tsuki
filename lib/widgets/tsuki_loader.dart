@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
 
 import 'package:flutter/widgets.dart';
+import 'package:tsuki/utils/app_colors.dart';
 
 class TsukiLoader extends StatefulWidget {
   const TsukiLoader({super.key});
@@ -31,6 +31,11 @@ class _TsukiLoaderState extends State<TsukiLoader> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Loading${frames[currentFrame]}"));
+    return Center(
+      child: Text(
+        "Loading${frames[currentFrame]}",
+        style: TextStyle(color: AppColors.terminalAmber, fontSize: 20),
+      ),
+    );
   }
 }
