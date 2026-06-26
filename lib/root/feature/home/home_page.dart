@@ -5,7 +5,9 @@ import 'package:tsuki/root/feature/home/bloc/home_event.dart';
 import 'package:tsuki/root/feature/home/bloc/home_state.dart';
 import 'package:tsuki/root/feature/home/widgets/artist_home_big.dart';
 import 'package:tsuki/root/feature/home/widgets/featured_artist.dart';
+import 'package:tsuki/root/feature/home/widgets/tsuki_header.dart';
 import 'package:tsuki/utils/app_colors.dart';
+import 'package:tsuki/widgets/tsuki_loader.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,7 +30,7 @@ class _HomePageState extends State<HomePage> {
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is HomeLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return TsukiLoader();
           }
 
           if (state is HomeDataLoaded) {
