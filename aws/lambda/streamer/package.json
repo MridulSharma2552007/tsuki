@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "serverless": "^4.38.1",
-    "youtubei.js": "^17.2.0"
+    "youtubei.js": "^17.2.0",
+    "ytdl-core": "^4.11.5"
   }
 }
