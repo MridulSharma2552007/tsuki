@@ -8,6 +8,6 @@ class InitialSearch extends SearchState {}
 class SearchLoading extends SearchState {}
 
 class SearchCompleted extends SearchState {
-  final SearchResponse response;
+  final List<SearchResponse> response;
   SearchCompleted(this.response);
 }

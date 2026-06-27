@@ -3,9 +3,7 @@ import 'package:tsuki/core/constants/ascii.dart';
 import 'package:tsuki/utils/app_colors.dart';
 
 bool isValidPassword(String password) {
-  final regex = RegExp(
-    r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$',
-  );
+  final regex = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$');
   return regex.hasMatch(password);
 }
 
@@ -42,10 +40,7 @@ class TerminalOverlay {
 
     overlay.insert(entry);
 
-    Future.delayed(
-      const Duration(seconds: 3),
-      () => entry.remove(),
-    );
+    Future.delayed(const Duration(seconds: 3), () => entry.remove());
   }
 }
 
@@ -84,11 +79,7 @@ class logoascii extends StatelessWidget {
 class AuthButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
-  const AuthButton({
-    super.key,
-    required this.label,
-    required this.onPressed,
-  });
+  const AuthButton({super.key, required this.label, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +89,7 @@ class AuthButton extends StatelessWidget {
       child: ElevatedButton(
         style: ButtonStyle(
           shape: WidgetStateProperty.all(
-            const RoundedRectangleBorder(
-              borderRadius: BorderRadius.zero,
-            ),
+            const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           ),
           backgroundColor: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.pressed)) {
@@ -125,6 +114,7 @@ class AuthButton extends StatelessWidget {
 class CustomTextField extends StatelessWidget {
   final String obj;
   final TextEditingController textEditingController;
+
   const CustomTextField({
     super.key,
     required this.obj,

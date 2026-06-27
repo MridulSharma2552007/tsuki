@@ -7,7 +7,7 @@ class SearchApi {
   SearchApi(this.dio);
 
   Future<Map<String, dynamic>> search(String q) async {
-    final response = await dio.post('/metadata/search?q=${q}');
-    return jsonDecode(response.data);
+    final response = await dio.get('/metadata/search', queryParameters: {'q': q});
+    return jsonDecode(response.data) as Map<String, dynamic>;
   }
 }

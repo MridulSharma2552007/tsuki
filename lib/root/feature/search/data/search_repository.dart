@@ -4,9 +4,11 @@ import 'package:tsuki/root/feature/search/data/search_api.dart';
 class SearchRepository {
   final SearchApi api;
   SearchRepository(this.api);
-  Future<SearchResponse> Search(String q) async {
+  Future<List<SearchResponse>> Search(String q) async {
     final data = await api.search(q);
-    final response = SearchResponse.fromJson(data);
-    return response;
+    final songs = data['songs'] as List<dynamic>;
+    return songs
+        .map((e) => SearchResponse.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }
