@@ -10,8 +10,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<Search>((event, emit) async {
       emit(SearchLoading());
       try {
-        await repository.Search(event.q);
-        emit(SearchCompleted());
+        final response = await repository.Search(event.q);
+        emit(SearchCompleted(response));
       } catch (e) {
         print(e);
       }

@@ -9,6 +9,9 @@ import 'package:tsuki/core/storage/secure_storage_service.dart';
 import 'package:tsuki/root/feature/home/bloc/home_bloc.dart';
 import 'package:tsuki/root/feature/home/data/home_api.dart';
 import 'package:tsuki/root/feature/home/data/home_repository.dart';
+import 'package:tsuki/root/feature/search/bloc/search_bloc.dart';
+import 'package:tsuki/root/feature/search/data/search_api.dart';
+import 'package:tsuki/root/feature/search/data/search_repository.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -27,6 +30,10 @@ class App extends StatelessWidget {
 
         BlocProvider<HomeBloc>(
           create: (_) => HomeBloc(HomeRepository(HomeApi(ApiClient().dio))),
+        ),
+        BlocProvider(
+          create: (_) =>
+              SearchBloc(SearchRepository(SearchApi(ApiClient().dio))),
         ),
       ],
       child: MaterialApp.router(routerConfig: appRouter),
