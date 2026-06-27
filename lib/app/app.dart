@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tsuki/app/feature/auth/bloc/auth_bloc.dart';
-import 'package:tsuki/app/feature/auth/data/auth_api.dart';
-import 'package:tsuki/app/feature/auth/data/auth_repository.dart';
+import 'package:tsuki/features/auth/bloc/auth_bloc.dart';
+import 'package:tsuki/features/auth/data/auth_api.dart';
+import 'package:tsuki/features/auth/data/auth_repository.dart';
 import 'package:tsuki/app/router/app_routes.dart';
 import 'package:tsuki/core/network/api_client.dart';
 import 'package:tsuki/core/storage/secure_storage_service.dart';
-import 'package:tsuki/root/feature/home/bloc/home_bloc.dart';
-import 'package:tsuki/root/feature/home/data/home_api.dart';
-import 'package:tsuki/root/feature/home/data/home_repository.dart';
-import 'package:tsuki/root/feature/search/bloc/search_bloc.dart';
-import 'package:tsuki/root/feature/search/data/search_api.dart';
-import 'package:tsuki/root/feature/search/data/search_repository.dart';
+import 'package:tsuki/features/home/bloc/home_bloc.dart';
+import 'package:tsuki/features/home/data/home_api.dart';
+import 'package:tsuki/features/home/data/home_repository.dart';
+import 'package:tsuki/features/search/bloc/search_bloc.dart';
+import 'package:tsuki/features/search/data/search_api.dart';
+import 'package:tsuki/features/search/data/search_repository.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

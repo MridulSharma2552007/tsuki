@@ -1,9 +1,9 @@
 import 'package:go_router/go_router.dart';
-import 'package:tsuki/app/feature/auth/presentation/pages/auth_gate.dart';
-import 'package:tsuki/app/feature/auth/presentation/pages/login_page.dart';
-import 'package:tsuki/app/feature/auth/presentation/pages/verify_page.dart';
-import 'package:tsuki/root/feature/home/home_page.dart';
-import 'package:tsuki/root/root_page.dart';
+import 'package:tsuki/features/auth/presentation/pages/auth_gate.dart';
+import 'package:tsuki/features/auth/presentation/pages/login_page.dart';
+import 'package:tsuki/features/auth/presentation/pages/verify_page.dart';
+import 'package:tsuki/features/home/home_page.dart';
+import 'package:tsuki/shell/root_page.dart';
 
 final appRouter = GoRouter(
   routes: [

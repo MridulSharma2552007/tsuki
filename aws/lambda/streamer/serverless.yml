@@ -1,0 +1,18 @@
+service: tsuki-streamer
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+
+plugins:
+  - serverless-offline
+
+functions:
+  api:
+    name: tsuki-streamer
+    handler: handler.handler
+    timeout: 30
+    memorySize: 1024
