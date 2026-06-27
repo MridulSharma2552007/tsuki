@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'dart:developer' as developer;
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
+import 'package:tsuki/core/config/env.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -13,8 +13,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final player = AudioPlayer();
-  final apiHostController =
-      TextEditingController(text: 'https://YOUR_API_ID.execute-api.ap-south-1.amazonaws.com');
+  final apiHostController = TextEditingController();
   final videoIdController = TextEditingController(text: '4aeETEoNfOg');
 
   String? title;
@@ -22,6 +21,12 @@ class _SettingsPageState extends State<SettingsPage> {
   String? errorLog;
   bool isLoading = false;
   bool isPlaying = false;
+
+  @override
+  void initState() {
+    super.initState();
+    apiHostController.text = Env.baseUrl;
+  }
 
   @override
   void dispose() {
@@ -43,20 +48,23 @@ class _SettingsPageState extends State<SettingsPage> {
       final host = apiHostController.text.trim();
       final videoId = videoIdController.text.trim();
 
+      final dio = Dio(BaseOptions(
+        baseUrl: host,
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 30),
+      ));
+
       developer.log('Fetching playable URL for $videoId...');
-      final response = await http
-          .post(
-            Uri.parse('$host/stream/playable'),
-            headers: {'Content-Type': 'application/json'},
-            body: jsonEncode({'videoId': videoId}),
-          )
-          .timeout(const Duration(seconds: 30));
+      final response = await dio.post(
+        '/stream/playable',
+        data: {'videoId': videoId},
+      );
 
       if (response.statusCode != 200) {
-        throw Exception('Server error: ${response.statusCode} ${response.body}');
+        throw Exception('Server error: ${response.statusCode}');
       }
 
-      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      final data = response.data as Map<String, dynamic>;
 
       if (data.containsKey('error')) {
         throw Exception(data['error']);
