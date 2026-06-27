@@ -1,0 +1,8 @@
+{
+  "name": "streamer",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "serverless-python-requirements": "^6.1.2"
+  }
+}
