@@ -29,7 +29,7 @@ class _SearchPageState extends State<SearchPage> {
               context.read<SearchBloc>().add(Search(q: controller.text));
             },
           ),
-          SizedBox(height: 20),
+
           Expanded(
             child: BlocBuilder<SearchBloc, SearchState>(
               builder: (context, state) {
