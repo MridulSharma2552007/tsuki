@@ -4,15 +4,23 @@ frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: python3.12
   region: ap-south-1
 
 plugins:
   - serverless-offline
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    layer: true
 
 functions:
   api:
     name: tsuki-streamer
-    handler: handler.handler
+    handler: handler.lambda_handler
     timeout: 30
     memorySize: 1024
+    layers:
+      - { Ref: PythonRequirementsLambdaLayer }
