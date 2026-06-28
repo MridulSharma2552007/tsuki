@@ -7,6 +7,7 @@ Exposes a single POST endpoint: /stream/playable { "videoId": "..." }
 
 from __future__ import annotations
 
+import base64
 import json
 import logging
 import os
@@ -137,11 +138,14 @@ def lambda_handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
         logger.warning("No route matched: %s %s", method, path)
         return _response(404, {"error": "Not found"})
 
-    # ── Parse body ──────────────────────────────────────────────────────
+    # ── Parse body (handle base64 encoding) ─────────────────────────────
+    raw_body: str = event.get("body") or "{}"
+    if event.get("isBase64Encoded", False):
+        raw_body = base64.b64decode(raw_body).decode("utf-8")
     body: dict[str, Any]
     try:
-        body = json.loads(event.get("body", "{}"))
-    except json.JSONDecodeError as exc:
+        body = json.loads(raw_body)
+    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
         return _response(400, {"error": f"Invalid JSON body: {exc}"})
 
     video_id: str | None = body.get("videoId")
