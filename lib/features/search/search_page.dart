@@ -7,6 +7,7 @@ import 'package:tsuki/features/search/bloc/search_event.dart';
 import 'package:tsuki/features/search/bloc/search_state.dart';
 import 'package:tsuki/core/theme/app_colors.dart';
 import 'package:tsuki/core/widgets/tsuki_loader.dart';
+import 'package:tsuki/features/search/widgets/history_tile.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -46,12 +47,18 @@ class _SearchPageState extends State<SearchPage> {
                     itemCount: state.history.length,
                     itemBuilder: (context, index) {
                       final history = state.history[index];
-                      return SongTileSmall(
+                      return HistoryTile(
+                        key: ValueKey(history.id),
                         title: history.title,
                         artist: history.artist,
                         thumbnail: history.thumbnail,
                         duration: history.duration,
                         id: history.id,
+                        onPress: () {
+                          context.read<SearchBloc>().add(
+                            DeleteHistoryItem(song: history),
+                          );
+                        },
                       );
                     },
                   );

@@ -14,3 +14,8 @@ class AddToSearchHistory extends SearchEvent {
 
   AddToSearchHistory({required this.song});
 }
+
+class DeleteHistoryItem extends SearchEvent {
+  final SearchResponse song;
+  DeleteHistoryItem({required this.song});
+}

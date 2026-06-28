@@ -77,4 +77,17 @@ class SearchRepository {
     final list = jsonDecode(json) as List<dynamic>;
     return list.map((e) => SearchResponse.fromJson(e)).toList();
   }
+
+  Future<void> deleteItemSearchHistory(SearchResponse song) async {
+    final historyBox = Hive.box('search_history');
+    final historykey = 'search_history';
+
+    final json = await historyBox.get(historykey);
+    List<dynamic> history = [];
+    if (json != null) {
+      history = jsonDecode(json);
+    }
+    history.removeWhere((e) => e['id'] == song.id);
+    await historyBox.put(historykey, jsonEncode(history));
+  }
 }

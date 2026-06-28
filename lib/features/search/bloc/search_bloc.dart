@@ -39,5 +39,16 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         print(e);
       }
     });
+    on<DeleteHistoryItem>((event, emit) async {
+      try {
+        await repository.deleteItemSearchHistory(event.song);
+
+        final history = await repository.getSearchHistory();
+
+        add(LoadSearchHistory());
+      } catch (e) {
+        print(e);
+      }
+    });
   }
 }
