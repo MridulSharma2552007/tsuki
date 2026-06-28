@@ -1,7 +1,5 @@
 service: tsuki-playable
-
 frameworkVersion: "3"
-
 provider:
   name: aws
   runtime: python3.12
@@ -19,7 +17,17 @@ functions:
   api:
     name: tsuki-playable
     handler: handler.lambda_handler
-    timeout: 60
-    memorySize: 1536
+    timeout: 30
+    memorySize: 1024
     layers:
       - { Ref: PythonRequirementsLambdaLayer }
+
+resources:
+  Resources:
+    PlayableApiGatewayPermission:
+      Type: AWS::Lambda::Permission
+      Properties:
+        FunctionName: !Ref ApiLambdaFunction
+        Action: lambda:InvokeFunction
+        Principal: apigateway.amazonaws.com
+        SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*/*/*"
