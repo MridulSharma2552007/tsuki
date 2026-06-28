@@ -15,6 +15,7 @@ class _SettingsPageState extends State<SettingsPage> {
   final player = AudioPlayer();
   final apiHostController = TextEditingController();
   final videoIdController = TextEditingController(text: '4aeETEoNfOg');
+  final cookieController = TextEditingController();
 
   String? title;
   String? audioUrl;
@@ -33,6 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
     player.dispose();
     apiHostController.dispose();
     videoIdController.dispose();
+    cookieController.dispose();
     super.dispose();
   }
 
@@ -47,6 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
     try {
       final host = apiHostController.text.trim();
       final videoId = videoIdController.text.trim();
+      final cookies = cookieController.text.trim();
 
       final dio = Dio(BaseOptions(
         baseUrl: host,
@@ -57,7 +60,10 @@ class _SettingsPageState extends State<SettingsPage> {
       developer.log('Fetching playable URL for $videoId...');
       final response = await dio.post(
         '/stream/playable',
-        data: {'videoId': videoId},
+        data: {
+          'videoId': videoId,
+          if (cookies.isNotEmpty) 'cookies': cookies,
+        },
       );
 
       if (response.statusCode != 200) {
@@ -127,6 +133,18 @@ class _SettingsPageState extends State<SettingsPage> {
                 border: OutlineInputBorder(),
                 isDense: true,
               ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: cookieController,
+              decoration: const InputDecoration(
+                labelText: 'Cookies (optional)',
+                hintText: 'name=value; name2=value2',
+                border: OutlineInputBorder(),
+                isDense: true,
+              ),
+              maxLines: 2,
+              minLines: 1,
             ),
             const SizedBox(height: 12),
             ElevatedButton.icon(

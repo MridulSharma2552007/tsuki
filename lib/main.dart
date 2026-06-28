@@ -9,5 +9,7 @@ void main() async {
   await dotenv.load(fileName: ".env/.env.dev");
   await Hive.initFlutter();
   await Hive.openBox('home_cache');
+  await Hive.openBox('search_cache');
+  await Hive.openBox('search_history');
   runApp(const App());
 }

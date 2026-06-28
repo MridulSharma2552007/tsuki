@@ -20,14 +20,14 @@ class SearchResponse {
   });
   factory SearchResponse.fromJson(Map<String, dynamic> json) {
     return SearchResponse(
-      id: json['id'],
-      title: json['title'],
-      artist: json['artist'],
-      artistId: json['artistId'],
-      album: json['album'],
-      duration: json['duration'],
-      thumbnail: json['thumbnail'],
-      youtubeUrl: json['youtubeUrl'],
+      id: json['id'] as String? ?? '',
+      title: json['title'] as String? ?? 'Unknown title',
+      artist: json['artist'] as String? ?? 'Unknown artist',
+      artistId: json['artistId'] as String? ?? '',
+      album: json['album'] as String? ?? '',
+      duration: json['duration'] as String? ?? '0:00',
+      thumbnail: json['thumbnail'] as String? ?? '',
+      youtubeUrl: json['youtubeUrl'] as String? ?? '',
     );
   }
 }

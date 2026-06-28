@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tsuki/core/theme/app_colors.dart';
@@ -18,19 +19,15 @@ class AlbumHomeBig extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.terminalAmber),
             ),
-            child: Image.network(
-              imageUrl,
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
               width: 150,
               height: 100,
               fit: BoxFit.cover,
               filterQuality: FilterQuality.high,
-              loadingBuilder: (context, child, progress) {
-                if (progress == null) return child;
-                return Container(
-                    color: AppColors.terminalAmber.withOpacity(0.1));
-              },
-              errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.error),
+              placeholder: (context, url) => Container(
+                  color: AppColors.terminalAmber.withOpacity(0.1)),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
         ),
