@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tsuki/features/home/widgets/song_tile_small.dart';
 import 'package:tsuki/features/search/bloc/search_bloc.dart';
@@ -18,6 +19,13 @@ class _SearchPageState extends State<SearchPage> {
   final TextEditingController controller = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    context.read<SearchBloc>().add(LoadSearchHistory());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.terminalSurface,
@@ -33,6 +41,21 @@ class _SearchPageState extends State<SearchPage> {
           Expanded(
             child: BlocBuilder<SearchBloc, SearchState>(
               builder: (context, state) {
+                if (state is SearchHistoryLoaded) {
+                  return ListView.builder(
+                    itemCount: state.history.length,
+                    itemBuilder: (context, index) {
+                      final history = state.history[index];
+                      return SongTileSmall(
+                        title: history.title,
+                        artist: history.artist,
+                        thumbnail: history.thumbnail,
+                        duration: history.duration,
+                        id: history.id,
+                      );
+                    },
+                  );
+                }
                 if (state is SearchLoading) {
                   return const TsukiLoader();
                 }
@@ -41,12 +64,20 @@ class _SearchPageState extends State<SearchPage> {
                     itemCount: state.response.length,
                     itemBuilder: (context, index) {
                       final song = state.response[index];
-                      return SongTileSmall(
-                        title: song.title,
-                        artist: song.artist,
-                        thumbnail: song.thumbnail,
-                        duration: song.duration,
-                        id: song.id,
+                      return GestureDetector(
+                        onLongPress: () {
+                          context.read<SearchBloc>().add(
+                            AddToSearchHistory(song: song),
+                          );
+                          HapticFeedback.heavyImpact();
+                        },
+                        child: SongTileSmall(
+                          title: song.title,
+                          artist: song.artist,
+                          thumbnail: song.thumbnail,
+                          duration: song.duration,
+                          id: song.id,
+                        ),
                       );
                     },
                   );
@@ -61,19 +92,24 @@ class _SearchPageState extends State<SearchPage> {
   }
 }
 
-class SearchBar extends StatelessWidget {
+class SearchBar extends StatefulWidget {
   const SearchBar({super.key, required this.controller, required this.onTap});
 
   final TextEditingController controller;
   final VoidCallback onTap;
 
   @override
+  State<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       child: TextField(
-        onSubmitted: (_) => onTap(),
-        controller: controller,
+        onSubmitted: (_) => widget.onTap(),
+        controller: widget.controller,
         style: const TextStyle(
           color: AppColors.terminalAmber,
           fontFamily: 'Courier',
@@ -105,6 +141,14 @@ class SearchBar extends StatelessWidget {
           prefixStyle: const TextStyle(
             color: AppColors.terminalAmber,
             fontFamily: 'Courier',
+          ),
+          suffixIcon: IconButton(
+            icon: const Icon(Icons.close, color: AppColors.terminalAmber),
+            onPressed: () {
+              widget.controller.clear();
+
+              context.read<SearchBloc>().add(LoadSearchHistory());
+            },
           ),
         ),
       ),

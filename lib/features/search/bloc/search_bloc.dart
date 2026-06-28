@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tsuki/features/search/bloc/search_event.dart';
 import 'package:tsuki/features/search/bloc/search_state.dart';
@@ -12,6 +13,28 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       try {
         final response = await repository.Search(event.q);
         emit(SearchCompleted(response));
+      } catch (e) {
+        print(e);
+      }
+    });
+    on<LoadSearchHistory>((event, emit) async {
+      emit(SearchLoading());
+      try {
+        final response = await repository.getSearchHistory();
+        emit(SearchHistoryLoaded(response));
+        print(
+          "<======================History Loaded=========================>",
+        );
+      } catch (e) {
+        print(e);
+      }
+    });
+    on<AddToSearchHistory>((event, emit) async {
+      try {
+        await repository.addToSearchHistory(event.song);
+        print(
+          "<======================Adding To History=========================>",
+        );
       } catch (e) {
         print(e);
       }

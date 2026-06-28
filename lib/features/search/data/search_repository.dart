@@ -43,4 +43,37 @@ class SearchRepository {
         .map((e) => SearchResponse.fromJson(e as Map<String, dynamic>))
         .toList();
   }
+
+  Future<void> addToSearchHistory(SearchResponse song) async {
+    final historyBox = Hive.box('search_history');
+    final historykey = 'search_history';
+
+    //get existing data as json
+
+    final json = await historyBox.get(historykey);
+
+    //convert to list
+    List<dynamic> history = [];
+
+    if (json != null) {
+      history = jsonDecode(json);
+    }
+    //remove duplicate one with same id
+    history.removeWhere((e) => e['id'] == song.id);
+
+    //add new one on top
+    history.insert(0, song.toJson());
+    //put back to hive
+    await historyBox.put(historykey, jsonEncode(history));
+  }
+
+  Future<List<SearchResponse>> getSearchHistory() async {
+    final historyBox = Hive.box('search_history');
+    final historykey = 'search_history';
+    final json = historyBox.get(historykey);
+
+    if (json == null) return [];
+    final list = jsonDecode(json) as List<dynamic>;
+    return list.map((e) => SearchResponse.fromJson(e)).toList();
+  }
 }

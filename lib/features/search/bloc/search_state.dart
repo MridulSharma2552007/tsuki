@@ -11,3 +11,8 @@ class SearchCompleted extends SearchState {
   final List<SearchResponse> response;
   SearchCompleted(this.response);
 }
+
+class SearchHistoryLoaded extends SearchState {
+  final List<SearchResponse> history;
+  SearchHistoryLoaded(this.history);
+}

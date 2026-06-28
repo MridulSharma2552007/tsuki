@@ -30,4 +30,16 @@ class SearchResponse {
       youtubeUrl: json['youtubeUrl'] as String? ?? '',
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'artist': artist,
+      'artistId': artistId,
+      'album': album,
+      'duration': duration,
+      'thumbnail': thumbnail,
+      'youtubeUrl': youtubeUrl,
+    };
+  }
 }
