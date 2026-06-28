@@ -1,6 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# ── API Gateway deploy ──────────────────────────────────────────────────
+#
+# Must be run AFTER all Lambda functions have been deployed.
+#
+# What it does:
+#   1. Loads env/.env for API_ID, AWS_REGION and LAMBDA_FUNCTION_NAME_* vars.
+#   2. Resolves each LAMBDA_FUNCTION_NAME into a Lambda ARN.
+#   3. Substitutes ${LAMBDA_URI_*} placeholders in api.yml with real ARNs.
+#   4. Re-imports the OpenAPI spec into the existing HTTP API.
+#   5. Grants API Gateway permission to invoke each Lambda.
+#   6. Creates a deployment so changes go live immediately.
+#
+# The output URL is the base URL for all endpoints.
+# ─────────────────────────────────────────────────────────────────────────
+
 cd "$(dirname "$0")"
 
 ENV_FILE="env/.env"
