@@ -44,6 +44,7 @@ class SearchRepository {
         .toList();
   }
 
+  //impossible to edit hive items directly so converting to json to list to json and putting back in hive
   Future<void> addToSearchHistory(SearchResponse song) async {
     final historyBox = Hive.box('search_history');
     final historykey = 'search_history';
