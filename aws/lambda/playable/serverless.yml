@@ -19,7 +19,7 @@ functions:
   api:
     name: tsuki-playable
     handler: handler.lambda_handler
-    timeout: 30
-    memorySize: 1024
+    timeout: 60
+    memorySize: 1536
     layers:
       - { Ref: PythonRequirementsLambdaLayer }
