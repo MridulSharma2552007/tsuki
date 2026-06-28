@@ -1,4 +1,4 @@
-service: tsuki-streamer
+service: tsuki-playable
 
 frameworkVersion: "3"
 
@@ -17,7 +17,7 @@ custom:
 
 functions:
   api:
-    name: tsuki-streamer
+    name: tsuki-playable
     handler: handler.lambda_handler
     timeout: 30
     memorySize: 1024

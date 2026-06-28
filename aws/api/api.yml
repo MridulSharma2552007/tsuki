@@ -6,14 +6,14 @@ info:
   description: Tsuki backend API
 
 paths:
-  /stream/playable:
+  /playable:
     post:
       operationId: getPlayableUrl
       x-amazon-apigateway-integration:
         httpMethod: POST
         type: aws_proxy
         payloadFormatVersion: "2.0"
-        uri: ${LAMBDA_URI_STREAMER}
+        uri: ${LAMBDA_URI_PLAYABLE}
       responses:
         "200":
           description: OK

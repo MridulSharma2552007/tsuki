@@ -1,10 +1,3 @@
-"""
-Lambda handler for tsuki-streamer.
-
-Resolves a YouTube video ID into a direct playable audio URL via yt-dlp.
-Exposes a single POST endpoint: /stream/playable { "videoId": "..." }
-"""
-
 from __future__ import annotations
 
 import base64
@@ -19,10 +12,6 @@ from yt_dlp.utils import DownloadError, ExtractorError, GeoRestrictedError
 logger = logging.getLogger()
 logger.setLevel(os.environ.get("LOG_LEVEL", "INFO").upper())
 
-# ── Default extraction options ─────────────────────────────────────────
-# The "android" client is forced via extractor_args so that YouTube returns
-# a raw progressive audio URL without requiring a PoToken or JS challenge.
-# This keeps the function lightweight (no Deno, no cookies).
 DEFAULT_OPTIONS: dict[str, Any] = {
     "format": "bestaudio[ext=m4a]/bestaudio/best",
     "extractor_args": {"youtube": {"client": ["android"]}},
@@ -34,44 +23,31 @@ DEFAULT_OPTIONS: dict[str, Any] = {
 }
 
 
-# ── Core extraction (identical logic to player/player.py) ──────────────
-
-
 def resolve_audio(video_id: str) -> dict[str, Any]:
-    """Return a result dict for *video_id*."""
-
     opts: dict[str, Any] = {**DEFAULT_OPTIONS}
-
     logger.info("Resolving video_id=%s", video_id)
 
     try:
         with yt_dlp.YoutubeDL(opts) as ydl:
             info: dict[str, Any] = ydl.extract_info(video_id, download=False)
-
     except GeoRestrictedError as exc:
         logger.error("Geo-restricted: %s", exc)
         return {"error": f"Video is geo-restricted: {exc}", "status": 451}
-
     except ExtractorError as exc:
         logger.error("Extractor error: %s", exc)
         return {"error": f"Extraction failed: {exc}", "status": 500}
-
     except DownloadError as exc:
         logger.error("Download error: %s", exc)
         return {"error": f"yt-dlp could not resolve video: {exc}", "status": 500}
-
     except Exception as exc:
         logger.exception("Unexpected error")
         return {"error": f"Unexpected error: {exc}", "status": 500}
 
-    # ── Metadata ────────────────────────────────────────────────────────
     title: str = info.get("title", "Unknown")
     duration: int | None = info.get("duration")
     extractor: str = info.get("extractor", "youtube")
 
-    # ── Pick best audio format that carries a direct URL ────────────────
     formats: list[dict[str, Any]] = info.get("formats", [])
-
     audio_formats: list[dict[str, Any]] = [
         f
         for f in formats
@@ -121,9 +97,6 @@ def resolve_audio(video_id: str) -> dict[str, Any]:
     }
 
 
-# ── Lambda entry-point ─────────────────────────────────────────────────
-
-
 def lambda_handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     logger.info("Event: %s", json.dumps(event))
 
@@ -134,11 +107,10 @@ def lambda_handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
         .get("method", "")
     )
 
-    if path != "/stream/playable" or method != "POST":
+    if path != "/playable" or method != "POST":
         logger.warning("No route matched: %s %s", method, path)
         return _response(404, {"error": "Not found"})
 
-    # ── Parse body (handle base64 encoding) ─────────────────────────────
     raw_body: str = event.get("body") or "{}"
     if event.get("isBase64Encoded", False):
         raw_body = base64.b64decode(raw_body).decode("utf-8")

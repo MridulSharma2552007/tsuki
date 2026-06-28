@@ -1,17 +1,17 @@
-name: StreamerLambda
+name: PlayableLambda
 
 on:
   push:
     branches: [main, master]
     paths:
-      - "aws/lambda/streamer/**"
+      - "aws/lambda/playable/**"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: aws/lambda/streamer
+        working-directory: aws/lambda/playable
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
