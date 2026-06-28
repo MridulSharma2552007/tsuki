@@ -38,7 +38,7 @@ logger.handlers = [_handler]
 
 # Clients to try in order (SABR enforcement workaround — YouTube blocks
 # datacenter IPs for some clients but not others).
-CLIENTS: list[str] = ["android", "ios", "web"]
+CLIENTS: list[str] = ["android_vr", "android", "ios", "web"]
 
 DEFAULT_BASE_OPTIONS: dict[str, Any] = {
     "format": "bestaudio[ext=m4a]/bestaudio/best",
