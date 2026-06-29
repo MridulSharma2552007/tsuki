@@ -75,7 +75,7 @@ class _SearchPageState extends State<SearchPage> {
                     itemBuilder: (context, index) {
                       final song = state.response[index];
                       return GestureDetector(
-                        onLongPress: () {
+                        onTap: () {
                           context.read<SearchBloc>().add(
                             AddToSearchHistory(song: song),
                           );
