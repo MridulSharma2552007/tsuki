@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tsuki/core/player/bloc/player_bloc.dart';
+import 'package:tsuki/core/player/bloc/player_event.dart';
+import 'package:tsuki/core/player/data/model/playing_song.dart';
 import 'package:tsuki/features/home/widgets/song_tile_small.dart';
 import 'package:tsuki/features/search/bloc/search_bloc.dart';
 import 'package:tsuki/features/search/bloc/search_event.dart';
@@ -75,6 +78,17 @@ class _SearchPageState extends State<SearchPage> {
                         onLongPress: () {
                           context.read<SearchBloc>().add(
                             AddToSearchHistory(song: song),
+                          );
+                          context.read<PlayerBloc>().add(
+                            PlaySong(
+                              PlayingSong(
+                                id: song.id,
+                                title: song.title,
+                                artist: song.title,
+                                thumbnail: song.thumbnail,
+                                duration: song.duration,
+                              ),
+                            ),
                           );
                           HapticFeedback.heavyImpact();
                         },

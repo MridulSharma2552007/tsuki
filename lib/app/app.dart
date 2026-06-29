@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tsuki/core/player/bloc/player_bloc.dart';
+import 'package:tsuki/core/player/data/player_repository.dart';
+import 'package:tsuki/core/player/service/player_service.dart';
 import 'package:tsuki/features/auth/bloc/auth_bloc.dart';
 import 'package:tsuki/features/auth/data/auth_api.dart';
 import 'package:tsuki/features/auth/data/auth_repository.dart';
@@ -34,6 +37,9 @@ class App extends StatelessWidget {
         BlocProvider(
           create: (_) =>
               SearchBloc(SearchRepository(SearchApi(ApiClient().dio))),
+        ),
+        BlocProvider(
+          create: (_) => PlayerBloc(PlayerRepository(PlayerService())),
         ),
       ],
       child: MaterialApp.router(routerConfig: appRouter),
