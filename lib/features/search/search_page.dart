@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,10 +76,11 @@ class _SearchPageState extends State<SearchPage> {
                     itemBuilder: (context, index) {
                       final song = state.response[index];
                       return GestureDetector(
-                        onTap: () {
+                        onLongPress: () {
                           context.read<SearchBloc>().add(
                             AddToSearchHistory(song: song),
                           );
+                          // context.read<PlayerBloc>().add(StopSong());
                           context.read<PlayerBloc>().add(
                             PlaySong(
                               PlayingSong(
@@ -89,6 +91,101 @@ class _SearchPageState extends State<SearchPage> {
                                 duration: song.duration,
                               ),
                             ),
+                          );
+                          showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) {
+                              return Container(
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: AppColors.terminalSurface,
+                                  border: Border.all(
+                                    color: AppColors.terminalAmber,
+                                  ),
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(16),
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CachedNetworkImage(
+                                      imageUrl: song.thumbnail,
+                                      width: 120,
+                                      height: 120,
+                                      fit: BoxFit.cover,
+                                    ),
+
+                                    const SizedBox(height: 16),
+
+                                    Text(
+                                      song.title,
+                                      style: const TextStyle(
+                                        color: AppColors.terminalAmber,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+
+                                    const SizedBox(height: 8),
+
+                                    Text(
+                                      song.artist,
+                                      style: const TextStyle(
+                                        color: AppColors.terminalAmber,
+                                      ),
+                                    ),
+
+                                    const SizedBox(height: 24),
+
+                                    ListTile(
+                                      leading: const Icon(
+                                        Icons.play_arrow,
+                                        color: AppColors.terminalAmber,
+                                      ),
+                                      title: const Text(
+                                        "Play",
+                                        style: TextStyle(
+                                          color: AppColors.terminalAmber,
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+
+                                    ListTile(
+                                      leading: const Icon(
+                                        Icons.playlist_add,
+                                        color: AppColors.terminalAmber,
+                                      ),
+                                      title: const Text(
+                                        "Add to Queue",
+                                        style: TextStyle(
+                                          color: AppColors.terminalAmber,
+                                        ),
+                                      ),
+                                      onTap: () {},
+                                    ),
+
+                                    ListTile(
+                                      leading: const Icon(
+                                        Icons.favorite_border,
+                                        color: AppColors.terminalAmber,
+                                      ),
+                                      title: const Text(
+                                        "Like",
+                                        style: TextStyle(
+                                          color: AppColors.terminalAmber,
+                                        ),
+                                      ),
+                                      onTap: () {},
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                           );
                           HapticFeedback.heavyImpact();
                         },

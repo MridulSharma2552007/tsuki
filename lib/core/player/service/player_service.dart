@@ -13,7 +13,8 @@ class PlayerService {
     );
     // find best audio
     final stream = manifest.audioOnly.withHighestBitrate();
-
+    //stop song
+    await player.stop();
     //set url
     await _player.setUrl(stream.url.toString());
     //play
