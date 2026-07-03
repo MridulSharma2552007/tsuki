@@ -9,7 +9,7 @@ class AppTextTheme {
   // playlist/card names — anywhere the app is "speaking" to the user.
 
   static TextStyle get screenTitleLarge => GoogleFonts.fraunces(
-    fontSize: 27,
+    fontSize: 40,
     fontWeight: FontWeight.w500,
     height: 1.2,
     color: AppColors.textPrimary,
@@ -49,7 +49,7 @@ class AppTextTheme {
   );
 
   static TextStyle get secondary => GoogleFonts.dmSans(
-    fontSize: 12,
+    fontSize: 18,
     fontWeight: FontWeight.w400,
     color: AppColors.textSecondary,
   );
