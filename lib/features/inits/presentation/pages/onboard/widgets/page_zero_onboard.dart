@@ -9,7 +9,7 @@ class PageZeroOnboard extends StatelessWidget {
   final String subheading;
   final VoidCallback ontapbutton;
   final VoidCallback? onskip;
-  final String buttonlabel;
+
   final Color onboardcolor;
 
   const PageZeroOnboard({
@@ -19,7 +19,7 @@ class PageZeroOnboard extends StatelessWidget {
     required this.subheading,
     required this.ontapbutton,
     this.onskip,
-    required this.buttonlabel,
+
     required this.onboardcolor,
   });
 
@@ -66,9 +66,6 @@ class PageZeroOnboard extends StatelessWidget {
           style: AppTextTheme.secondary,
           textAlign: TextAlign.center,
         ),
-
-        SizedBox(height: screenheight / 10),
-        PrimaryButton(onPress: ontapbutton, label: buttonlabel),
       ],
     );
   }

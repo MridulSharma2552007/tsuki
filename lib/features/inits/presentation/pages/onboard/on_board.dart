@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tsuki/app/theme/app_colors.dart';
-import 'package:tsuki/features/inits/presentation/onboard/widgets/page_zero_onboard.dart';
+import 'package:tsuki/core/widgets/buttons.dart';
+import 'package:tsuki/features/inits/presentation/pages/onboard/widgets/page_zero_onboard.dart';
 
 class OnBoard extends StatefulWidget {
-  OnBoard({super.key});
+  const OnBoard({super.key});
 
   @override
   State<OnBoard> createState() => _OnBoardState();
@@ -23,6 +24,7 @@ class _OnBoardState extends State<OnBoard> {
 
   @override
   Widget build(BuildContext context) {
+    final screenheight = MediaQuery.sizeOf(context).height;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Column(
@@ -44,7 +46,7 @@ class _OnBoardState extends State<OnBoard> {
                   subheading:
                       "No genres to sort through. Just tell  us the mood, and we'll take it fromthere",
                   ontapbutton: () => navigateTonext(controller, 0),
-                  buttonlabel: 'Get started',
+
                   onboardcolor: AppColors.moodSage,
                 ),
                 PageZeroOnboard(
@@ -53,7 +55,7 @@ class _OnBoardState extends State<OnBoard> {
                   subheading:
                       "No subscription, no ads breaking \n the mood. Just tap a song and it \n plays\n ",
                   ontapbutton: () => navigateTonext(controller, 1),
-                  buttonlabel: "Next",
+
                   onboardcolor: AppColors.moodAmber,
                 ),
                 PageZeroOnboard(
@@ -62,12 +64,37 @@ class _OnBoardState extends State<OnBoard> {
                   subheading:
                       " Bring in the playlists and songs\n you already love. We'll take it from here",
                   ontapbutton: () {},
-                  buttonlabel: 'Get Started',
+
                   onboardcolor: AppColors.moodSage,
                 ),
               ],
             ),
           ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              3,
+              (index) => AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                width: currentPage == index ? 24 : 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: currentPage == index
+                      ? AppColors.surface
+                      : AppColors.inactive,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: screenheight / 20),
+          PrimaryButton(
+            onPress: () => navigateTonext(controller, currentPage),
+            label: currentPage < 2 ? "Next" : "Get started",
+          ),
+          SizedBox(height: screenheight / 10),
         ],
       ),
     );
