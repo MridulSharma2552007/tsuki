@@ -61,8 +61,8 @@ class AppTextTheme {
   );
 
   static TextStyle get buttonLabel => GoogleFonts.dmSans(
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
     color: AppColors.background, // cream text on ink buttons
   );
 

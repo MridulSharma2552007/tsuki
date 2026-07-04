@@ -37,23 +37,19 @@ class PageZeroOnboard extends StatelessWidget {
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text('Skip', style: AppTextTheme.secondary),
+                    GestureDetector(
+                      onTap: onskip,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text('Skip', style: AppTextTheme.secondary),
+                      ),
                     ),
                   ],
                 )
               : null,
         ),
         SizedBox(height: 80),
-        Container(
-          height: screenheight / 5,
-          width: screenheight / 5,
-          decoration: BoxDecoration(
-            color: onboardcolor,
-            borderRadius: BorderRadius.circular(100),
-          ),
-        ),
+        introcontainer(screenheight: screenheight, onboardcolor: onboardcolor),
         SizedBox(height: screenheight / 15),
         Text(
           heading,
@@ -67,6 +63,29 @@ class PageZeroOnboard extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       ],
+    );
+  }
+}
+
+class introcontainer extends StatelessWidget {
+  const introcontainer({
+    super.key,
+    required this.screenheight,
+    required this.onboardcolor,
+  });
+
+  final double screenheight;
+  final Color onboardcolor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: screenheight / 5,
+      width: screenheight / 5,
+      decoration: BoxDecoration(
+        color: onboardcolor,
+        borderRadius: BorderRadius.circular(100),
+      ),
     );
   }
 }
