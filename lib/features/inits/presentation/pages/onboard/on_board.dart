@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tsuki/app/theme/app_colors.dart';
 import 'package:tsuki/core/widgets/buttons.dart';
 import 'package:tsuki/features/inits/presentation/pages/onboard/widgets/page_zero_onboard.dart';
@@ -15,11 +16,15 @@ class _OnBoardState extends State<OnBoard> {
   int currentPage = 0;
 
   void navigateTonext(PageController c, int currentPage) {
-    c.animateToPage(
-      currentPage + 1,
-      duration: Duration(milliseconds: 200),
-      curve: Curves.easeIn,
-    );
+    if (currentPage < 2) {
+      c.animateToPage(
+        currentPage + 1,
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeIn,
+      );
+    } else {
+      context.go('/spotify-login');
+    }
   }
 
   @override
@@ -40,7 +45,7 @@ class _OnBoardState extends State<OnBoard> {
 
               children: [
                 PageZeroOnboard(
-                  onskip: () {},
+                  onskip: () => context.go('/spotify-login'),
                   showSkip: true,
                   heading: "Music that\nmatches how you\nfeel",
                   subheading:
