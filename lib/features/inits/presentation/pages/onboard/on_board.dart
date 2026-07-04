@@ -19,8 +19,8 @@ class _OnBoardState extends State<OnBoard> {
     if (currentPage < 2) {
       c.animateToPage(
         currentPage + 1,
-        duration: Duration(milliseconds: 200),
-        curve: Curves.easeIn,
+        duration: Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
       );
     } else {
       context.go('/spotify-login');
@@ -36,6 +36,7 @@ class _OnBoardState extends State<OnBoard> {
         children: [
           Expanded(
             child: PageView(
+              physics: const BouncingScrollPhysics(),
               controller: controller,
               onPageChanged: (value) {
                 setState(() {
