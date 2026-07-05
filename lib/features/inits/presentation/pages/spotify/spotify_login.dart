@@ -5,7 +5,7 @@ import 'package:tsuki/core/widgets/buttons.dart';
 import 'package:tsuki/features/inits/presentation/pages/onboard/widgets/page_zero_onboard.dart';
 import 'dart:ui';
 
-import 'package:tsuki/features/inits/presentation/pages/spotifymetadata/spotify_connect.dart';
+import 'package:tsuki/features/inits/presentation/pages/spotify/spotify_connect.dart';
 
 class SpotifyLogin extends StatefulWidget {
   const SpotifyLogin({super.key});
@@ -47,17 +47,17 @@ class _SpotifyLoginState extends State<SpotifyLogin> {
               SizedBox(height: screenheight * 0.03),
               PrimaryButton(
                 onPress: () {
-                  showModalBottomSheet(
-                    isScrollControlled: true,
-                    backgroundColor: AppColors.moodSky.withAlpha(9),
-                    context: context,
-                    builder: (context) {
-                      return SizedBox(
-                        height: screenheight,
-                        child: SpotifyConnect(),
-                      );
-                    },
-                  );
+                  print("Button pressed");
+
+                  try {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const SpotifyConnect()),
+                    );
+                  } catch (e, s) {
+                    print(e);
+                    print(s);
+                  }
                 },
                 label: "ᯤ  Connect with Spotify",
               ),
