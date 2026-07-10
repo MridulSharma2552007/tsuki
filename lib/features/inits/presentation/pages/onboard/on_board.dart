@@ -23,7 +23,7 @@ class _OnBoardState extends State<OnBoard> {
         curve: Curves.easeInOut,
       );
     } else {
-      context.go('/spotify-login');
+      context.go('/shell');
     }
   }
 
@@ -46,7 +46,7 @@ class _OnBoardState extends State<OnBoard> {
 
               children: [
                 PageZeroOnboard(
-                  onskip: () => context.go('/spotify-login'),
+                  onskip: () => context.go('/shell'),
                   showSkip: true,
                   heading: "Music that\nmatches how you\nfeel",
                   subheading:
