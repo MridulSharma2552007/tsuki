@@ -11,6 +11,7 @@ class SecureStorageServices {
 
   Future<String?> read(String key) async {
     await _storage.read(key: key);
+    return null;
   }
 
   Future<void> delete(String key) async {

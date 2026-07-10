@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tsuki/app/theme/app_colors.dart';
 import 'package:tsuki/app/theme/app_text_theme.dart';
-import 'package:tsuki/core/widgets/buttons.dart';
 
 class PageZeroOnboard extends StatelessWidget {
   final bool showSkip;

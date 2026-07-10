@@ -3,7 +3,6 @@ import 'package:tsuki/app/theme/app_colors.dart';
 import 'package:tsuki/app/theme/app_text_theme.dart';
 import 'package:tsuki/core/widgets/buttons.dart';
 import 'package:tsuki/features/inits/presentation/pages/onboard/widgets/page_zero_onboard.dart';
-import 'dart:ui';
 
 import 'package:tsuki/features/inits/presentation/pages/spotify/spotify_connect.dart';
 
