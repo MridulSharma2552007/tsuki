@@ -24,6 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(Duration(seconds: 3), () {
       isLoggedIn() == true ? context.push('/shell') : context.push('/onboard');
+
+      print(isLoggedIn());
     });
   }
 

@@ -29,12 +29,19 @@ class _ShellState extends State<Shell> {
           key: AuthKeys.isLoggedin,
         ) ??
         false;
+    print(isLoggedin);
     if (!isLoggedin) {
       SharedPreferenceStorageService.instance.setBool(
         key: AuthKeys.isLoggedin,
         value: true,
       );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setLoginFlag();
   }
 
   @override
