@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tsuki/app/theme/app_colors.dart';
+import 'package:tsuki/core/constants/auth_keys.dart';
+import 'package:tsuki/core/services/shared_preference_storage_service.dart';
 import 'package:tsuki/features/home/explore/explore_page.dart';
 import 'package:tsuki/features/home/library/library_page.dart';
 import 'package:tsuki/features/home/search/search_page.dart';
@@ -20,6 +22,21 @@ class _ShellState extends State<Shell> {
     LibraryPage(),
     Placeholder(),
   ];
+
+  void setLoginFlag() {
+    final isLoggedin =
+        SharedPreferenceStorageService.instance.getBool(
+          key: AuthKeys.isLoggedin,
+        ) ??
+        false;
+    if (!isLoggedin) {
+      SharedPreferenceStorageService.instance.setBool(
+        key: AuthKeys.isLoggedin,
+        value: true,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

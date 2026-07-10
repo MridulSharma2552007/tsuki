@@ -25,4 +25,8 @@ class SharedPreferenceStorageService {
   Future<void> remove({required String key}) async {
     await _prefs.remove(key);
   }
+
+  bool? getBool({required String key}) {
+    return _prefs.getBool(key);
+  }
 }
