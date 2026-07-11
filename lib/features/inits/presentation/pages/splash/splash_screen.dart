@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tsuki/app/theme/app_colors.dart';
 import 'package:tsuki/core/constants/auth_keys.dart';
 import 'package:tsuki/core/services/shared_preference_storage_service.dart';
