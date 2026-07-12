@@ -20,18 +20,18 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    final screen_height = MediaQuery.of(context).size.height;
-    final screen_width = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         children: [
-          SizedBox(height: screen_height * 0.06),
+          SizedBox(height: screenHeight * 0.06),
           Text(
             'What sounds good\n today?',
             style: AppTextTheme.screenTitleLarge,
           ),
-          SizedBox(height: screen_height * 0.05),
+          SizedBox(height: screenHeight * 0.05),
           CustomSearchTextField(controller: _controller, label: 'Search...'),
         ],
       ),
