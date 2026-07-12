@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tsuki/app/theme/app_text_theme.dart';
+import 'package:tsuki/core/services/metadata_service.dart';
 import 'package:tsuki/core/widgets/textfields.dart';
 
 class SearchPage extends StatefulWidget {
@@ -11,6 +12,11 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _controller = TextEditingController();
+
+  void search(String query) async {
+    final songs = await MetadataService.searchSongs(query);
+    print(songs);
+  }
 
   @override
   void dispose() {
@@ -32,7 +38,11 @@ class _SearchPageState extends State<SearchPage> {
             style: AppTextTheme.screenTitleLarge,
           ),
           SizedBox(height: screenHeight * 0.05),
-          CustomSearchTextField(controller: _controller, label: 'Search...'),
+          CustomSearchTextField(
+            controller: _controller,
+            label: 'Search...',
+            onSubmitted: search,
+          ),
         ],
       ),
     );
