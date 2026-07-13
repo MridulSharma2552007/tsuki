@@ -64,12 +64,17 @@ class _SearchPageState extends State<SearchPage> {
                   itemCount: results.length,
                   itemBuilder: (context, index) {
                     final song = results[index];
-                    return SongTile(
-                      title: song.title,
-                      artist: song.author,
-                      duration: song.duration,
-                      imageUrl: song.thumbnailUrl,
-                      channelid: song.channelId,
+                    return GestureDetector(
+                      onTap: () {
+                        context.read<SearchBloc>().playSong(song.id);
+                      },
+                      child: SongTile(
+                        title: song.title,
+                        artist: song.author,
+                        duration: song.duration,
+                        imageUrl: song.thumbnailUrl,
+                        channelid: song.channelId,
+                      ),
                     );
                   },
                 );
