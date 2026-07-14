@@ -3,7 +3,6 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 class MetadataService {
   MetadataService._();
 
-  static final MetadataService _instance = MetadataService._();
 
   static late final YoutubeExplode _yt;
 

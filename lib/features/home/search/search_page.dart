@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tsuki/app/theme/app_text_theme.dart';
+import 'package:tsuki/core/services/player_service.dart';
+import 'package:tsuki/core/services/yt_music_extractor_Service.dart';
 import 'package:tsuki/core/widgets/song_tile.dart';
 import 'package:tsuki/core/widgets/textfields.dart';
 import 'package:tsuki/features/home/search/bloc/search_bloc.dart';
@@ -65,8 +67,10 @@ class _SearchPageState extends State<SearchPage> {
                   itemBuilder: (context, index) {
                     final song = results[index];
                     return GestureDetector(
-                      onTap: () {
-                        context.read<SearchBloc>().playSong(song.id);
+                      onTap: () async {
+                        final source = await YtMusicExtractorService.instance
+                            .getPlayableSource(song.id);
+                        await PlayerService.instance.play(source);
                       },
                       child: SongTile(
                         title: song.title,
