@@ -8,19 +8,23 @@ class LibraryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: screenHeight * 0.1),
-          Text("Your library", style: AppTextTheme.screenTitleLarge),
-          Text(
-            "Everything you've saved, all in one place",
-            style: AppTextTheme.secondary,
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: screenHeight * 0.1),
+              Text("Your library", style: AppTextTheme.screenTitleLarge),
+              Text(
+                "Everything you've saved, all in one place",
+                style: AppTextTheme.secondary,
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
